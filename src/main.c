@@ -6,7 +6,7 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 12:45:02 by dborione          #+#    #+#             */
-/*   Updated: 2023/05/03 12:44:34 by dborione         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:15:39 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,26 @@ int	main(int argc, char **argv) {
 	if (process_id == -1)
 		return (1);
 
-	if (process_id == 0) // Child Process
+	if (process_id == 0)
 	{
-		//close(fd[0]);
-		//write to the pipe = write(fd[1])
-		int id2 = fork();
-		if (id2 == 0)
-			execve(file, args, env);
-		char *buf = malloc(5556564545645);
-		char *result = read(STDOUT_FILENO, buf, sizeof(buf));
-		//write(fd[1], result, sizeof(result));
-	
-	} else { // Parent Process
-		wait(NULL);// -> wait for child processes to finish
-		//execve cmd2 avec l'output du child
-		//read from the pipe = read(fd[0])
-		printf("parent process");
+		execve(file, args, env);
+		while((dup2(pipe_fd[1], STDOUT_FILENO) == -1));
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 	}
 
-
-
+	int id2 = fork();
+	if (id2 == -1)
+		return (1);
+	if (id2 == 0){
+		while((dup2(pipe_fd[0], STDIN_FILENO) == -1));
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		//execve cmd2
+	}
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	wait(NULL);// -> wait for child processes to finish;
 
 
 	
@@ -70,5 +70,5 @@ int	main(int argc, char **argv) {
 //	char *args[] = {"/usr/bin/whereis", $ENV, NULL};
 //	char *env[] = {"ENV=fjdjs", NULL};
 
-	return (0);
+	exit(0);
 }
