@@ -54,15 +54,14 @@ int	main(int argc, char **argv) {
 	if (id2 == -1)
 		return (1);
 	if (id2 == 0){
+		execve(file, args, env);
 		while((dup2(pipe_fd[0], STDIN_FILENO) == -1));
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
-		//execve cmd2
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	wait(NULL);// -> wait for child processes to finish;
-
 
 	
 
