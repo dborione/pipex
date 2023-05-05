@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <stdlib.h>
+#include "../includes/pipex.h"
 
 //int execve(const char *pathname, char *const argv[], char *const envp[]);
 //fd = open(argv[1], O_RDWR);
@@ -23,45 +18,59 @@
 // fd[0] - read
 // fd[1] - write
 
-int	main(int argc, char **argv) {
-	int pipe_fd[2]; //nbr of cmds]
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("Error");
-		return (1);
-	}
-	int	fd;
-	int process_id;
+	// char *file = "/bin/echo";
+	// char *args2 = strcat(argv[1], " child process");
+	// char *args[] = {"/bin/echo", args2, NULL};
+	// char *env[] = {NULL};
+
+
+
+
+int	main(int argc, char **argv, char **env) {
+
+
+	if (argc != 5)
+		return (ft_error(1, "Wrong Number of arguments"));
+	ft_get_cmd(env);
+
+
+
+
+	// int pipe_fd[2]; //nbr of cmds]
+	// if (pipe(pipe_fd) == -1)
+	// {
+	// 	perror("Error");
+	// 	return (1);
+	// }
+	// int	fd;
+	// int child_parsing_id;
 	
-	char *file = "/bin/echo";
-	char *args2 = strcat(argv[1], " child process");
-	char *args[] = {"/bin/echo", args2, NULL};
-	char *env[] = {NULL};
 
-	process_id = fork();
-	if (process_id == -1)
-		return (1);
 
-	if (process_id == 0)
-	{
-		execve(file, args, env);
-		while((dup2(pipe_fd[1], STDOUT_FILENO) == -1));
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
+	// child_parsing_id = fork();
+	// if (child_parsing_id == -1)
+	// 	return (1);
+	// if (child_parsing_id == 0)
+	// {
+		
+	// 	// execve(file, args, env);
+	// 	// while((dup2(pipe_fd[1], STDOUT_FILENO) == -1));
+	// 	// close(pipe_fd[0]);
+	// 	// close(pipe_fd[1]);
+	// }
 
-	int id2 = fork();
-	if (id2 == -1)
-		return (1);
-	if (id2 == 0){
-		execve(file, args, env);
-		while((dup2(pipe_fd[0], STDIN_FILENO) == -1));
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	wait(NULL);// -> wait for child processes to finish;
+	// int id2 = fork();
+	// if (id2 == -1)
+	// 	return (1);
+	// if (id2 == 0){
+	// 	execve(file, args, env);
+	// 	while((dup2(pipe_fd[0], STDIN_FILENO) == -1));
+	// 	close(pipe_fd[0]);
+	// 	close(pipe_fd[1]);
+	// }
+	// close(pipe_fd[0]);
+	// close(pipe_fd[1]);
+	// wait(NULL);// -> wait for child processes to finish;
 
 	
 

@@ -17,9 +17,9 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 #	Sources
-FILES = main	\
+FILES = main.c	utils.c \
 
-SRCS = $(addprefix src/, $(addsuffix .c, $(FILES)))
+SRCS = $(addprefix src/, $(FILES))
 
 #	Objects
 OBJS = $(SRCS:.c=.o)
@@ -27,6 +27,11 @@ OBJS = $(SRCS:.c=.o)
 #	Others
 NAME = pipex
 RM = rm -f
+
+#Libft
+LIBFT = libft.a
+LIBFT_DIR = ./libft/
+LIBFT_PATH = ./libft/libft.a
 
 #	Colours
 GREEN = \033[32m
@@ -40,19 +45,24 @@ all :	$(NAME)
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_PATH)
 	@echo "$(GREEN)[Done!]$(DEFAULT)"
+
+$(LIBFT): 
+	@make -C $(LIBFT_DIR)
 
 #	Cleaning
 clean:
 	@echo "$(YELLOW)[Cleaning...]$(DEFAULT)"
+	@make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS)
 	@echo "$(RED)[Objects Cleaned!]$(DEAFULT)"
 
 
 fclean: clean
 	$(RM) $(NAME)
+	@make fclean -C $(LIBFT_DIR)
 	@echo "$(RED)[Executable File Cleaned!]$(DEFAULT)"
 
 re: fclean all
