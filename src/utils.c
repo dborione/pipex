@@ -32,7 +32,7 @@ char *ft_get_path(char **env, char *argv)
     correct_path = NULL;
     while (ft_strncmp("PATH=", env[i++], 5))
     {
-        paths = ft_split(&env[i][5], ':');
+        paths = ft_split(&env[i][5], ':'); //leak here
         if (!paths)
         {
             ft_free_tab(paths);
@@ -40,8 +40,8 @@ char *ft_get_path(char **env, char *argv)
             exit(0);
         }
     }
-    //printf("%s", paths[2]);
     correct_path = ft_get_correct_path(correct_path, paths, argv);
+    ft_free_tab(paths);
     return (correct_path);
 }
 
@@ -54,10 +54,21 @@ char *ft_get_correct_path(char *correct_path, char **paths, char *argv)
     argv_path = ft_strjoin("/", argv); 
     while (paths[i])
     {
-        correct_path = ft_strjoin(paths[i], argv_path);
+        correct_path = ft_strjoin(paths[i], argv_path); //leak here
+        if (!correct_path)
+        {
+            free(argv_path);
+            ft_free_tab(paths);
+            exit(0);
+        }
         if (access(correct_path, F_OK) == 0)
+        {
+            free(argv_path);           
             return (correct_path);
+        }
         i++;
     }
+    free(argv_path);
+    ft_free_tab(paths);
     exit(0);
 }

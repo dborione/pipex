@@ -98,5 +98,6 @@ char	*ft_strjoin(char *s1, char const *s2)
 	ft_strlcpy(s3, s1, (ft_strlen(s1) + 1));
 	ft_strlcat(s3, s2, buf);
 	free(s1);
+	free(s2);
 	return (s3);
 }
