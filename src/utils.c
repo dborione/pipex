@@ -27,16 +27,17 @@ char **ft_get_cmd(char **env)
     char **cmd;
     int i;
 
-    i = 0;
-    while (!ft_strncmp(env[i++], "PATH", 4))
+    i = 0;  
+    while (ft_strncmp("PATH", env[i++], 4))
     {
         cmd = ft_split(&env[i][5], ':');
         if (!cmd)
         {
             ft_free_tab(cmd);
             ft_error(0, "Split Error");
-            exit (0);
+            exit(0);
         }
     }
+    printf("%s", cmd[0]);
     return (cmd);
 }
