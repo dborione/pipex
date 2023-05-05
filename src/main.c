@@ -28,31 +28,64 @@
 
 int	main(int argc, char **argv, char **env) {
 
-
+	char *path;
 	if (argc != 5)
 		return (ft_error(1, "Wrong Number of arguments"));
-	ft_get_cmd(env);
+	path = ft_get_path(env, argv[2]);
+	printf("%s\n", path);
+
+
+
+    // int pipe_fd[2];
+    // if (pipe(pipe_fd) == -1)
+	// 	return (ft_error(1, "Open Pipe Error"));
+
+    // int pid = fork();
+    // if (pid == -1)
+    //     return (ft_error(1, "Open Fork Error"));
+
+    // if (pid == 0) //Child
+    // {
+    //     int exec = execve("/usr/bin/", arg, NULL);
+    //     if (exec == -1)
+    //         return (ft_error(1, "cmd execution error"));
 
 
 
 
-	// int pipe_fd[2]; //nbr of cmds]
-	// if (pipe(pipe_fd) == -1)
-	// {
-	// 	perror("Error");
-	// 	return (1);
-	// }
-	// int	fd;
-	// int child_parsing_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       // while((dup2(pipe_fd[1], STDOUT_FILENO) == -1)); //Send output to write end of pipe
+	// 	close(pipe_fd[1]);
+    // }
+    // close(pipe_fd[1]);
 	
 
 
-	// child_parsing_id = fork();
-	// if (child_parsing_id == -1)
-	// 	return (1);
-	// if (child_parsing_id == 0)
-	// {
-		
+
 	// 	// execve(file, args, env);
 	// 	// while((dup2(pipe_fd[1], STDOUT_FILENO) == -1));
 	// 	// close(pipe_fd[0]);

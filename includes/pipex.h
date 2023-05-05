@@ -9,8 +9,9 @@
 #include <stdlib.h>
 #include "../libft/includes/libft.h"
 
-char **ft_get_cmd(char **env);
+char *ft_get_path(char **env, char *argv);
 char	**ft_split(char const *s, char c);
 int ft_error(int error_code, char *error_message);
+char *ft_get_correct_path(char *correct_path, char **paths, char *argv);
 
 #endif

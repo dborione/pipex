@@ -22,22 +22,42 @@ char	**ft_free_tab(char **tab)
 	return (0);
 }
 
-char **ft_get_cmd(char **env)
+char *ft_get_path(char **env, char *argv)
 {
-    char **cmd;
+    char **paths;
+    char *correct_path;
     int i;
 
-    i = 0;  
-    while (ft_strncmp("PATH", env[i++], 4))
+    i = 0;
+    correct_path = NULL;
+    while (ft_strncmp("PATH=", env[i++], 5))
     {
-        cmd = ft_split(&env[i][5], ':');
-        if (!cmd)
+        paths = ft_split(&env[i][5], ':');
+        if (!paths)
         {
-            ft_free_tab(cmd);
+            ft_free_tab(paths);
             ft_error(0, "Split Error");
             exit(0);
         }
     }
-    printf("%s", cmd[0]);
-    return (cmd);
+    //printf("%s", paths[2]);
+    correct_path = ft_get_correct_path(correct_path, paths, argv);
+    return (correct_path);
+}
+
+char *ft_get_correct_path(char *correct_path, char **paths, char *argv)
+{
+    int i;
+    char *argv_path;
+
+    i = 0;
+    argv_path = ft_strjoin("/", argv); 
+    while (paths[i])
+    {
+        correct_path = ft_strjoin(paths[i], argv_path);
+        if (access(correct_path, F_OK) == 0)
+            return (correct_path);
+        i++;
+    }
+    exit(0);
 }
