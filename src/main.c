@@ -66,6 +66,6 @@ int	main(int argc, char **argv, char **env) {
 	close(pipe_fd[1]);
 	free(path_cmd1);
 	free(path_cmd2);
-	wait(NULL);// -> wait for child processes to finish;
+	wait(NULL);// -> wait for child processes to finish; //waitpid
 	exit(0);
 }
