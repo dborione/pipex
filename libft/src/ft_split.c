@@ -15,12 +15,10 @@
 static int	ft_tab_len(const char *ptr, char c)
 {
 	unsigned long	i;
-	int				j;
 	int				count;
 	unsigned int	len;
 
 	i = 0;
-	j = 0;
 	count = 0;
 	len = ft_strlen(ptr);
 	while (i < len)
@@ -29,12 +27,8 @@ static int	ft_tab_len(const char *ptr, char c)
 		{
 			i++;
 			if (ptr[i] == c || ptr[i] == '\0')
-			{
 				count++;
-				j = i;
-			}
 		}
-		j++;
 		i++;
 	}
 	return (count);
