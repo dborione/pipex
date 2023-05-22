@@ -73,5 +73,6 @@ char *ft_get_correct_path(char *correct_path, char **paths, char *argv)
         i++;
     }
     free(argv_path);
-    ft_error(0, "path");
+    ft_free_tab(paths);
+    ft_error(0, "path not found");
 }

@@ -25,8 +25,8 @@ int	main(int argc, char **argv, char **env) {
 
 	char *path_cmd1;
 	char *path_cmd2;
-	if (argc != 5)
-		ft_error(EXIT_FAILURE, "Wrong Number of arguments");
+	// if (argc != 5)
+	// 	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
 	path_cmd1 = ft_get_path(env, argv[2]);
 	path_cmd2 = ft_get_path(env, argv[3]);
 	// printf("%s\n", path_cmd1);
