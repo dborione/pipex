@@ -9,9 +9,16 @@
 #include <stdlib.h>
 #include "../libft/includes/libft.h"
 
-char *ft_get_path(char **env, char *argv);
+typedef struct	s_cmds {
+    char *cmd1;
+	char *cmd2;
+	char *cmd1_arg;
+    char *cmd2_arg;
+} t_cmds;
+
+int ft_get_path(char **env, char *argv, t_cmds *cmds);
 char	**ft_split(char const *s, char c);
 int ft_error(int error_code, char *error_message);
-char *ft_get_correct_path(char *correct_path, char **paths, char *argv);
+char *ft_get_correct_path(char *correct_path, char **paths);
 
 #endif
