@@ -4,14 +4,17 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <sys/wait.h>
 #include <string.h>
 #include <stdlib.h>
 #include "../libft/includes/libft.h"
 
+#include <sys/types.h>
+#include <sys/wait.h>
+
+
 typedef struct	s_cmd {
     char *cmd;
-	char *cmd_arg;
+	char *cmd_param;
 } t_cmd;
 
 int ft_get_path(char **env, char *argv, t_cmd *cmd);
