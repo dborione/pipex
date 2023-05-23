@@ -37,37 +37,12 @@ int	main(int argc, char **argv, char **env) {
     if (pipe(pipe_fd) == -1)
 		ft_error(EXIT_FAILURE, "Open Pipe Error");
 
-	// int pid1;
-	// ft_fork(pipe_fd, pid1, 1, 0, STDOUT_FILENO, &cmd1, argv[1]);
+	int pid1 = 0;
+	ft_fork(pipe_fd, pid1, 1, STDOUT_FILENO, &cmd1, argv[1]);
 
+	int pid2 = 0;
+	ft_fork(pipe_fd, pid2, 0, STDIN_FILENO, &cmd2, argv[5]);
 
-    int pid1 = fork();
-    if (pid1 == -1)
-        ft_error(EXIT_FAILURE, "Open Fork1 Error");
-    if (pid1 == 0) //Child
-    {
-		while((dup2(pipe_fd[1], STDOUT_FILENO) == -1)); //Send output to write end of pipe
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		char *arg1[] = {cmd1.cmd, cmd1.cmd_arg, argv[1], NULL};
-    	int exec = execve(cmd1.cmd, arg1, NULL);
-        if (exec == -1)
-            ft_error(0, "cmd1 execution error");	
-    }
-	
-	int pid2 = fork();
-	if (pid2 == -1)
-		ft_error(1, "Open Fork2 Error");
-	if (pid2 == 0)
-	{
-		while((dup2(pipe_fd[0], STDIN_FILENO) == -1));
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		char *arg2[] = {cmd2.cmd, cmd2.cmd_arg, argv[5], NULL};
-		int exec2 = execve(cmd2.cmd, arg2, NULL);
-        if (exec2 == -1)
-            ft_error(0, "cmd2 execution error");
-	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);

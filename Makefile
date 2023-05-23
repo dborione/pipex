@@ -15,7 +15,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 #	Sources
-FILES = main.c	utils.c \
+FILES = main.c	utils.c	forks.c \
 
 SRCS = $(addprefix src/, $(FILES))
 
