@@ -23,33 +23,42 @@ char	**ft_free_tab(char **tab)
 	return (0);
 }
 
-int ft_get_path(char **env, char *argv, t_cmds *cmds)
+void ft_free_path_tabs(char **tab1, char **tab2, int error)
+{
+    if (tab1)
+        ft_free_tab(tab1);
+    if (tab2)
+        ft_free_tab(tab2);
+    if (error == EXIT_FAILURE)
+        ft_error(EXIT_FAILURE, "Split2 Error");
+    if (error == 0)
+        ft_error(EXIT_FAILURE, "command not found");
+}
+
+int ft_get_path(char **env, char *argv, t_cmd *cmd)
 {
     char **paths;
-    char *correct_path;
     int i;
 
     i = 0;
-    correct_path = NULL;
     while (ft_strncmp("PATH=", env[i++], 5))
     {
         paths = ft_split(&env[i][5], ':');
         if (!paths)
         {
             ft_free_tab(paths);
-            ft_error(EXIT_FAILURE, "Split Error");
+            ft_error(EXIT_FAILURE, "Split1 Error");
         }
     }
     char **path_with_args = ft_split(argv, ' ');
-    cmds->cmd1 = path_with_args[0];
-    cmds->cmd1_arg = path_with_args[1];
-    //path_with_args[0] = cmd1 ex 'ls'
-    //path_with_args[1] = cmd1 args ex '-l'
-    correct_path = ft_get_correct_path(path_with_args[0], paths);
+    if (!path_with_args )
+        ft_free_path_tabs(paths, path_with_args, EXIT_FAILURE);
+    cmd->cmd = path_with_args[0];
+    if (path_with_args[1])
+        cmd->cmd_arg = path_with_args[1];
+    cmd->cmd = ft_get_correct_path(path_with_args[0], paths);
     ft_free_tab(paths);
-    if (!correct_path)
-        ft_error(0, "command not found");
-    cmds->cmd1 = correct_path;
+   // ft_free_tab(path_with_args);
     return (1);
 }
 
