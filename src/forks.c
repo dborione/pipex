@@ -15,9 +15,8 @@ void ft_fork_cmd1(int *pipe_fd, t_cmd *cmd, char *arg)
 		if (file_fd == -1)
         	ft_error(0, "file opening error");
 
-		dup2(file_fd, STDOUT_FILENO);
-		
-		//dup2(pipe_fd[0], STDIN_FILENO);
+		dup2(file_fd, STDIN_FILENO);	
+		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(file_fd);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
@@ -43,9 +42,10 @@ void ft_fork_cmd2(int *pipe_fd, t_cmd *cmd2, char *arg)
     	if (file_fd == -1)
         	ft_error(0, "file opening error");
 
-		//dup2(file_fd, STDIN_FILENO);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-
+	
+		dup2(pipe_fd[0], STDIN_FILENO);
+		dup2(file_fd, STDOUT_FILENO);
+		close(file_fd);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 

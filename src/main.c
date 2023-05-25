@@ -29,7 +29,8 @@ int	main(int argc, char **argv, char **env) {
 	t_cmd	cmd2;
 	int 	pipe_fd[2];
 
-	// 	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
+	// if (argc != 5)
+	//  	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
 	ft_get_path(env, argv[2], &cmd1);
 	ft_get_path(env, argv[3], &cmd2);
 
