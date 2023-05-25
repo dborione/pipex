@@ -32,13 +32,17 @@ int	main(int argc, char **argv, char **env) {
 	// if (argc != 5)
 	//  	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
 	ft_get_path(env, argv[2], &cmd1);
-	ft_get_path(env, argv[3], &cmd2);
+	//printf("%s\n", cmd1.cmd);
+	if (argv[3])
+		ft_get_path(env, argv[3], &cmd2);
 
     if (pipe(pipe_fd) == -1)
 		ft_error(EXIT_FAILURE, "Open Pipe Error");
 
 	ft_fork_cmd1(pipe_fd, &cmd1, argv[1]);
-	ft_fork_cmd2(pipe_fd, &cmd2, argv[4]);
+	cmd2.output = cmd1.output;
+	if (argv[3])
+		ft_fork_cmd2(pipe_fd, &cmd2, argv);
 
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);

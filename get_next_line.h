@@ -21,11 +21,11 @@
 # include <unistd.h>
 # include <limits.h>
 
-char	*ft_strjoin(char *s1, char const *s2);
-size_t	ft_strlen(const char *str);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_strjoin_gnl(char *s1, char const *s2);
+size_t	ft_strlen_gnl(const char *str);
+size_t	ft_strlcat_gnl(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlcpy_gnl(char *dst, const char *src, size_t dstsize);
 char	*get_next_line(int fd);
-char	*ft_strrchr(char *str, int c);
+char	*ft_strrchr_gnl(char *str, int c);
 
 #endif

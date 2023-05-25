@@ -1,6 +1,5 @@
 #include "../includes/pipex.h"
 #include "../libft/includes/libft.h"
-#include "../get_next_line/get_next_line.h"
 
 int ft_error(int error_code, char *error_message)
 {
@@ -68,12 +67,12 @@ char *ft_get_correct_path(char *correct_path, char **paths)
     char *argv_path;
 
     i = 0;
-    argv_path = ft_strjoin("/", correct_path); 
+    argv_path = ft_strjoin_gnl("/", correct_path); 
     if (!argv_path)
         ft_error(0, "strjoin1");
     while (paths[i])
     {
-        correct_path = ft_strjoin(paths[i], argv_path); //leak here
+        correct_path = ft_strjoin_gnl(paths[i], argv_path); //leak here
         if (!correct_path)
         {
             free(argv_path);
