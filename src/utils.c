@@ -14,10 +14,7 @@ char	**ft_free_tab(char **tab)
 
 	x = 0;
 	while (tab[x])
-	{
-		free(tab[x]);
-		x++;
-	}
+		free(tab[x++]);
 	free(tab);
 	return (0);
 }
@@ -52,12 +49,12 @@ int ft_get_path(char **env, char *argv, t_cmd *cmd)
     char **path_with_param = ft_split(argv, ' ');
     if (!path_with_param )
         ft_free_path_tabs(paths, path_with_param, EXIT_FAILURE);
-    cmd->cmd = path_with_param[0];
+    cmd->cmd_path = path_with_param[0];
     if (path_with_param[1])
         cmd->cmd_param = path_with_param[1];
-    cmd->cmd = ft_get_correct_path(path_with_param[0], paths);
+    cmd->cmd_path = ft_get_correct_path(path_with_param[0], paths);
     ft_free_tab(paths);
-   // ft_free_tab(path_with_args);
+ //  ft_free_tab(path_with_args);
     return (1);
 }
 

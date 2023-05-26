@@ -25,86 +25,15 @@
 
 int	main(int argc, char **argv, char **env) {
 
-	t_cmd	cmd1;
-	t_cmd	cmd2;
-	int 	pipe_fd[2];
+	t_pipex	pipex;
+	int		i;
 
-	// if (argc != 5)
-	//  	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
-	ft_get_path(env, argv[2], &cmd1);
-	//printf("%s\n", cmd1.cmd);
-	if (argv[3])
-		ft_get_path(env, argv[3], &cmd2);
-
-    if (pipe(pipe_fd) == -1)
-		ft_error(EXIT_FAILURE, "Open Pipe Error");
-
-	ft_fork_cmd1(pipe_fd, &cmd1, argv[1]);
-	cmd2.output = cmd1.output;
-	if (argv[3])
-		ft_fork_cmd2(pipe_fd, &cmd2, argv);
-
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	
+	i = 2;
+	if (argc != 5)
+	 	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
+	ft_open_files(argv, argc, &pipex);
+	//ft_fork(&pipex, argv, argv[i], env);
+	while (i < (argc - 1))
+		ft_fork(&pipex, argv, argv[i++], env);
 	exit(0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//waitpid(pid1, NULL, 0);
-	//waitpid(pid2, NULL, 0);
-
-
-
-	// free(cmd1.cmd);
-	// free(cmd1.cmd_arg);
-	// free(cmd2.cmd);
-	// free(cmd2.cmd_arg);
-
-	// int child_status2;
-	// int child_status1;
-	// int	wstatus;
-	// child_status1 = waitpid(pid, &wstatus, 0);
-	// child_status2 = waitpid(pid2, NULL, 0);
-	// if (WIFEXITED(wstatus)) //check if program terminated properly 
-	// 	child_status2 = WEXITSTATUS(wstatus);
-	//printf("%d\n", child_status1);
-	//printf("%d\n", child_status2);
-	//exit(child_status2);
-
-	//return (0);
-
