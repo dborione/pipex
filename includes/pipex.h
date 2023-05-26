@@ -23,9 +23,7 @@ typedef struct s_pipex
 {
     int infile_fd;
     int outfile_fd;
-    char    **exec_arg;
-    t_cmd   cmd1;
-    t_cmd   cmd2;
+    t_cmd cmd;
 } t_pipex;
 
 

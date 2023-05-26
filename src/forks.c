@@ -1,28 +1,20 @@
 #include "../includes/pipex.h"
 
-void	exec(t_cmd *cmd, char **argv)
+void	exec(t_cmd *cmd, char **env)
 {
-	cmd->file = argv[1];
-	cmd->ptr = NULL;
-	//printf("%s\n", cmd->cmd_param);
 	char *arg[] = {cmd->cmd_path, cmd->cmd_param, cmd->file, cmd->ptr};
-	if (execve(cmd->cmd_path, arg, NULL) == -1)
+	if (execve(cmd->cmd_path, arg, env) == -1)
         ft_error(0, "cmd execution error");
 }
 
 void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 {
-	int	infile_fd;
-	int	outfile_fd;
-
-	infile_fd = open(argv[1], O_CREAT, 0777);
-	if (infile_fd == -1)
+	pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
+	if (pipex->infile_fd == -1)
         ft_error(0, "infile opening error");
-	pipex->infile_fd = infile_fd;
-	outfile_fd = open(argv[argc - 1], O_CREAT, 0777);
-	if (outfile_fd == -1)
-        ft_error(0, "infile opening error");
-	pipex->outfile_fd = outfile_fd;
+	pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT, 0777);
+	if (pipex->outfile_fd == -1)
+        ft_error(0, "outfile opening error");
 }
 
 void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
@@ -39,19 +31,15 @@ void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	if (pid == 0)
 	{
 		ft_get_path(env, arg, &cmd);
-		dup2(pipex->infile_fd, STDIN_FILENO);
-		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
-		//close(pipe_fd[1]);
-		close(pipex->infile_fd);
-		exec(&cmd, argv);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		exec(&cmd, env);
 	}
 	waitpid(pid, NULL, 0);
-	//dup2(pipex->outfile_fd, STDOUT_FILENO);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	//close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	close(pipex->outfile_fd);
+	//close(pipe_fd[1]);
+	//close(pipex->outfile_fd);
 }
 
 
