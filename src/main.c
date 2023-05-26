@@ -35,5 +35,10 @@ int	main(int argc, char **argv, char **env) {
 	//ft_fork(&pipex, argv, argv[i], env);
 	while (i < (argc - 1))
 		ft_fork(&pipex, argv, argv[i++], env);
+	dup2(pipex.outfile_fd, STDOUT_FILENO);
+
+	char *arg[] = {"/bin/cat", "-e", argv[argc - 1], NULL};
+	if (execve("/bin/cat", arg, NULL) == -1)
+        ft_error(0, "cmd execution error");
 	exit(0);
 }

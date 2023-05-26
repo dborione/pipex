@@ -4,6 +4,7 @@ void	exec(t_cmd *cmd, char **argv)
 {
 	cmd->file = argv[1];
 	cmd->ptr = NULL;
+	//printf("%s\n", cmd->cmd_param);
 	char *arg[] = {cmd->cmd_path, cmd->cmd_param, cmd->file, cmd->ptr};
 	if (execve(cmd->cmd_path, arg, NULL) == -1)
         ft_error(0, "cmd execution error");
@@ -38,20 +39,19 @@ void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	if (pid == 0)
 	{
 		ft_get_path(env, arg, &cmd);
-    	//printf("%s\n", cmd.cmd_param);
 		dup2(pipex->infile_fd, STDIN_FILENO);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
-		close(pipe_fd[1]);
+		//close(pipe_fd[1]);
 		close(pipex->infile_fd);
 		exec(&cmd, argv);
 	}
-	dup2(pipex->outfile_fd, STDIN_FILENO);
-	dup2(pipe_fd[1], STDOUT_FILENO);
-	close(pipe_fd[0]);
+	waitpid(pid, NULL, 0);
+	//dup2(pipex->outfile_fd, STDOUT_FILENO);
+	dup2(pipe_fd[0], STDIN_FILENO);
+	//close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	close(pipex->outfile_fd);
-	waitpid(pid, NULL, 0);
 }
 
 
