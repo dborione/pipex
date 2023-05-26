@@ -12,15 +12,6 @@
 
 #include "../includes/pipex.h"
 
-//pipex file1 cmd1 cmd2 file2
-//int execve(const char *pathname, char *const argv[], char *const envp[]);;
-// fd[0] - read
-// fd[1] - write
-// dup2(file_fd, STDIN)
-//	dup2(pipe_fd, STDOUT)
-//dip2(file, 1)
-//pipe, 0
-
 int	main(int argc, char **argv, char **env) {
 
 	t_pipex	pipex;
@@ -28,15 +19,13 @@ int	main(int argc, char **argv, char **env) {
 
 	i = 2;
 	if (argc != 5)
-	 	ft_error(EXIT_FAILURE, "Wrong Number of arguments");
+	 	ft_error(EXIT_FAILURE, "arg nbr");
 	ft_open_files(argv, argc, &pipex);
-	dup2(pipex.infile_fd, STDIN_FILENO);
+
 	while (i < (argc - 2))
 		ft_fork(&pipex, argv, argv[i++], env);
-	dup2(pipex.outfile_fd, STDOUT_FILENO);
-
-	char *arg[] = {"/bin/cat", "-e", argv[argc - 1], NULL};
+	char *arg[] = {"/bin/cat", "-e", "outfile", NULL};
 	if (execve("/bin/cat", arg, env) == -1)
-        ft_error(0, "cmd execution error");
+        ft_error(0, "cmd exec2");
 	exit(0);
 }
