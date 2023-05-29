@@ -42,6 +42,8 @@ void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env, int argc)
 	int pid2 = fork();
 	if (pid2 == 0)
 	{
+		if (dup2(pipex->outfile_fd, STDOUT_FILENO) == -1)
+			ft_error(0, "fdfds4");
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 			ft_error(0, "fdfds2");
 		close(pipe_fd[0]);

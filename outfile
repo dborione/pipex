@@ -1,0 +1,12 @@
+total 128$
+-rw-r--r--   1 dborione  2022_brussels   1795 May 25 13:21 Makefile$
+drwxr-xr-x   6 dborione  2022_brussels    204 May 25 13:21 get_next_line$
+-rw-r--r--   1 dborione  2022_brussels   1358 May 25 13:25 get_next_line.h$
+drwxr-xr-x   3 dborione  2022_brussels    102 May  5 10:13 includes$
+-rw-r--r--   1 dborione  2022_brussels     15 May 26 16:23 infile$
+drwxr-xr-x   6 dborione  2022_brussels    204 May 29 11:55 libft$
+drwxr-xr-x   4 dborione  2022_brussels    136 May 22 12:11 old$
+-rwxr-xr-x   1 dborione  2022_brussels      0 May 29 12:02 outfile$
+-rwxr-xr-x   1 dborione  2022_brussels  51336 May 29 12:03 pipex$
+drwxr-xr-x   3 dborione  2022_brussels    102 May 22 13:01 pipex.dSYM$
+drwxr-xr-x  12 dborione  2022_brussels    408 May 29 12:03 src$
