@@ -15,6 +15,7 @@
 int	main(int argc, char **argv, char **env) {
 
 	t_pipex	pipex;
+	t_cmd	cmd;
 	int		i;
 
 	i = 2;
@@ -25,7 +26,12 @@ int	main(int argc, char **argv, char **env) {
 		ft_error(0, "fdfds1");
 	close(pipex.infile_fd);
 	while (i < (argc - 2))
-		ft_fork(&pipex, argv, argv[i++], env);
+	{
+		if (ft_get_path(env, argv[i], &cmd) == -1)
+			exit(0);
+		ft_fork(&pipex, argv, argv[i], env);
+		i++;
+	}
 	ft_last_cmd(&pipex, argv, argv[i], env);
 	exit(0);
 }

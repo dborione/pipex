@@ -33,8 +33,9 @@ void ft_free_path_tabs(char **tab1, char **tab2, int error)
 
 int ft_get_path(char **env, char *argv, t_cmd *cmd)
 {
-    char **paths;
-    int i;
+    char	**paths;
+    char	**path_with_param;
+    int 	i;
 
     i = 0;
     while (ft_strncmp("PATH=", env[i++], 5))
@@ -43,13 +44,15 @@ int ft_get_path(char **env, char *argv, t_cmd *cmd)
         if (!paths)
         {
             ft_free_tab(paths);
-            ft_error(EXIT_FAILURE, "Split1 Error");
+            return (-1);
+            //ft_error(EXIT_FAILURE, "Split1 Error");
         }
     }
-    char **path_with_param = ft_split(argv, ' ');
+    path_with_param = ft_split(argv, ' ');
     if (!path_with_param )
         ft_free_path_tabs(paths, path_with_param, EXIT_FAILURE);
     cmd->cmd_path = path_with_param[0];
+    // if sizeof(path with param > 1)
     if (path_with_param[1])
         cmd->cmd_param = path_with_param[1];
     cmd->cmd_path = ft_get_correct_path(path_with_param[0], paths);
@@ -60,8 +63,8 @@ int ft_get_path(char **env, char *argv, t_cmd *cmd)
 
 char *ft_get_correct_path(char *correct_path, char **paths)
 {
-    int i;
-    char *argv_path;
+    int		i;
+    char	*argv_path;
 
     i = 0;
     argv_path = ft_strjoin_gnl("/", correct_path); 

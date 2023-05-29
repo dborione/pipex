@@ -30,7 +30,6 @@ void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(1, "Open Fork");
 	if (pid == 0)
 	{
-		ft_get_path(env, arg, &cmd);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
@@ -49,6 +48,7 @@ void ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env)
 	if (dup2(pipex->outfile_fd, STDOUT_FILENO) == -1)
 		ft_error(0, "fdfds4");
 	close(pipex->outfile_fd);
-	ft_get_path(env, arg, &cmd);
+	if (ft_get_path(env, arg, &cmd) == -1)
+		   exit(0);
 	exec(argv, &cmd, env);
 }
