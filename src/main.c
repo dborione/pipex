@@ -18,18 +18,14 @@ int	main(int argc, char **argv, char **env) {
 	int		i;
 
 	i = 2;
-	if (argc != 5)
+	if (argc < 5)
 	 	ft_error(EXIT_FAILURE, "arg nbr");
 	ft_open_files(argv, argc, &pipex);
 	if (dup2(pipex.infile_fd, STDIN_FILENO) == -1)
 		ft_error(0, "fdfds1");
-	//write(STDIN_FILENO, "fd", 2);
-	//while (i < (argc - 1))
-		ft_fork(&pipex, argv, argv[i], env, argc);
-
-
-	// char *arg[] = {"/bin/cat", "-e", "outfile", NULL};
-	// if (execve("/bin/cat", arg, env) == -1)
-    //     ft_error(0, "cmd exec2");
+	close(pipex.infile_fd);
+	while (i < (argc - 2))
+		ft_fork(&pipex, argv, argv[i++], env);
+	ft_last_cmd(&pipex, argv, argv[i], env);
 	exit(0);
 }

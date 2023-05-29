@@ -17,7 +17,7 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
         ft_error(0, "outfile open");
 }
 
-void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env, int argc)
+void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 {
 	int		pipe_fd[2];
 	int		pid;
@@ -31,51 +31,24 @@ void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env, int argc)
 	if (pid == 0)
 	{
 		ft_get_path(env, arg, &cmd);
-		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			ft_error(0, "fdfds2");
-		//close(pipex->infile_fd);
-		//close(pipex->outfile_fd);
+		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		exec(argv, &cmd, env);
 	}
-	int pid2 = fork();
-	if (pid2 == 0)
-	{
-		if (dup2(pipex->outfile_fd, STDOUT_FILENO) == -1)
-			ft_error(0, "fdfds4");
-		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-			ft_error(0, "fdfds2");
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		char *arg[] = {"/bin/cat", "-e", NULL};
-		if (execve("/bin/cat", arg, env) == -1)
-        	ft_error(0, "cmd exec2");
-	}
+	dup2(pipe_fd[0], STDIN_FILENO);
 	wait(NULL);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+}
 
+void ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env)
+{
+	t_cmd	cmd;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//ft_open_files(argv, argc, pipex);
-	// waitpid(pid, NULL, 0);
-	// if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-	// 	ft_error(0, "fdfds3");
-	// write(STDIN_FILENO, "fd", 2);
-	// close(pipe_fd[0]);
-	// close(pipe_fd[1]);
-	// //close(pipex->outfile_fd);
+	if (dup2(pipex->outfile_fd, STDOUT_FILENO) == -1)
+		ft_error(0, "fdfds4");
+	close(pipex->outfile_fd);
+	ft_get_path(env, arg, &cmd);
+	exec(argv, &cmd, env);
 }
