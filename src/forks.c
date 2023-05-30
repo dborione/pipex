@@ -27,6 +27,8 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	int		pid;
 	t_cmd	cmd;
 
+	cmd.cmd_path = NULL;
+	cmd.cmd_param = NULL;
 	if (pipe(pipe_fd) == -1)
 		ft_error(EXIT_FAILURE, "Open Pipe");
 	pid = fork();
@@ -35,7 +37,7 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	if (pid == 0)
 	{
 		if (!ft_get_path(env, arg, &cmd))
-			return (0);
+			exit (0);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			write(STDERR_FILENO, "error", 5);
 		close(pipe_fd[0]);

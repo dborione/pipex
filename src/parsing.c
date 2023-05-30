@@ -29,10 +29,7 @@ char **ft_get_env(char **env, char **paths)
         {
             paths = ft_split(&env[i][5], ':');
             if (!paths)
-            {
-                //ft_free_tab(paths);
                 return(NULL);
-            }
         }
     }
     return(paths);
@@ -51,18 +48,19 @@ int ft_get_full_path(char **cmd_full, char **paths, t_cmd *cmd)
     {
         full_path = ft_strjoin(paths[i], "/");
         if (!full_path)
-            return(ft_free_str(full_path, cmd_path_clone)); //free all
+            return(ft_free_str(full_path, cmd_path_clone)); //free all;
         cmd_path_clone = ft_strjoin(full_path, cmd_full[0]);
-        if (!cmd->cmd_path)
-            return(ft_free_str(full_path, cmd_path_clone));; //free(all)
+        if (!cmd_path_clone)
+            return(ft_free_str(full_path, cmd_path_clone)); //free(all)
         if (access(cmd_path_clone, F_OK) == 0)
         {
             cmd->cmd_path = ft_strdup(cmd_path_clone);
+            //if (!cmd->cmd_path)
             ft_free_str(full_path, cmd_path_clone);
             return(1);
         }
-        else
-            return(ft_free_str(full_path, cmd_path_clone));
+        // else
+        //     return(ft_free_str(full_path, cmd_path_clone));
         ft_free_str(full_path, cmd_path_clone);
     }
     ft_free_str(full_path, cmd_path_clone);
@@ -77,15 +75,18 @@ int ft_get_path(char **env, char *arg, t_cmd *cmd)
     paths = NULL;
     cmd_full = NULL;
     paths = ft_get_env(env, paths);
-    if (!paths) //ok
+    if (!paths)
         return (0);
     cmd_full = ft_split(arg, ' ');
     if (!cmd_full)
-        return(ft_free_tab(paths));
+        return (ft_free_tab(paths));
     if (!ft_get_full_path(cmd_full, paths, cmd))
-        return(ft_free_tabs(paths, cmd_full));
+        return (ft_free_tabs(paths, cmd_full));
+
     if (cmd_full[1])
         cmd->cmd_param = ft_strdup(cmd_full[1]);
+         //if (!cmd->cmd_param)
+
     ft_free_tabs(paths, cmd_full);
     return (1);
 }
