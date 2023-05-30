@@ -30,7 +30,7 @@ typedef struct s_pipex
 int ft_get_path(char **env, char *arg, t_cmd *cmd);
 char	**ft_split(char const *s, char c);
 int ft_error(int error_code, char *error_message);
-char *ft_get_correct_path(char *correct_path, char **paths);
+int ft_free_tab(char **tab);
 void	ft_open_files(char **argv, int argc, t_pipex *pipex);
 int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env);
 void	exec(char **argv, t_cmd *cmd, char **env);
