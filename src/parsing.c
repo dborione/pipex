@@ -1,15 +1,15 @@
 #include "../includes/pipex.h"
 
-void ft_free_path_tabs(char **tab1, char **tab2, int error)
+void    ft_free_all(char *s1, char *s2)
 {
-    if (tab1)
-        ft_free_tab(tab1);
-    if (tab2)
-        ft_free_tab(tab2);
-    if (error == EXIT_FAILURE)
-        ft_error(EXIT_FAILURE, "Split2 Error");
-    if (error == 0)
-        ft_error(EXIT_FAILURE, "command not found");
+    // if (tab1)
+    //     ft_free_tab(tab1);
+    // if (tab2)
+    //     ft_free_tab(tab1);
+    if (s1)
+        free(s1);
+    if (s2)
+        free(s2);
 }
 
 char **ft_get_env(char **env, char **paths)
@@ -47,15 +47,19 @@ int ft_get_full_path(char **cmd_full, char **paths, t_cmd *cmd)
         if (access(cmd_path_clone, F_OK) == 0)
         {
             cmd->cmd_path = ft_strdup(cmd_path_clone);
-            free(cmd_path_clone);
-            free(full_path);
+            ft_free_all(full_path, cmd_path_clone);
             return (1);
         }
-        free(full_path);
-        free(cmd_path_clone);
+        else
+        {
+            ft_free_tab(cmd_full);
+            ft_free_tab(paths);
+            ft_free_all(full_path, cmd_path_clone);
+            exit(0);
+        }
+        ft_free_all(full_path, cmd_path_clone);
     }
-    free(full_path);
-    free(cmd_path_clone);
+    ft_free_all(full_path, cmd_path_clone);
     return (0);
 }
 
@@ -66,10 +70,11 @@ int ft_get_path(char **env, char *arg, t_cmd *cmd)
 
     paths = NULL;
     paths = ft_get_env(env, paths);
+    if (!paths)
+        exit(0);
     cmd_full = ft_split(arg, ' ');
     if (!cmd_full)
         return(ft_free_tab(paths));
-
     ft_get_full_path(cmd_full, paths, cmd);
     if (cmd_full[1])
         cmd->cmd_param = ft_strdup(cmd_full[1]);

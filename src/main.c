@@ -31,7 +31,5 @@ int	main(int argc, char **argv, char **env) {
 	ft_last_cmd(&pipex, argv, argv[i], env);
 	free(cmd.cmd_path);
 	free(cmd.cmd_param);
-	//printf("%s\n", cmd.cmd_path);
-	//printf("%s\n", cmd.cmd_param);
 	exit(0);
 }
