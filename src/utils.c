@@ -52,10 +52,12 @@ int ft_get_path(char **env, char *argv, t_cmd *cmd)
     if (!path_with_param )
         ft_free_path_tabs(paths, path_with_param, EXIT_FAILURE);
     cmd->cmd_path = path_with_param[0];
-    // if sizeof(path with param > 1)
-    if (path_with_param[1])
-        cmd->cmd_param = path_with_param[1];
+    if (!path_with_param[1])
+        cmd->cmd_param = NULL;
+    cmd->cmd_param = path_with_param[1];
     cmd->cmd_path = ft_get_correct_path(path_with_param[0], paths);
+    if (!cmd->cmd_path)
+        return (-1);
     ft_free_tab(paths);
  //  ft_free_tab(path_with_args);
     return (1);
@@ -88,5 +90,6 @@ char *ft_get_correct_path(char *correct_path, char **paths)
     }
     free(argv_path);
     ft_free_tab(paths);
-    ft_error(0, "path not found");
+    //ft_error(0, "path not found");
+    return (NULL);
 }
