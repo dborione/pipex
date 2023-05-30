@@ -30,6 +30,8 @@ void	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(1, "Open Fork");
 	if (pid == 0)
 	{
+		if (ft_get_path(env, arg, &cmd) == -1)
+			exit(0);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
