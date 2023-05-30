@@ -37,7 +37,11 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	if (pid == 0)
 	{
 		if (!ft_get_path(env, arg, &cmd))
-			exit (0);
+		{
+			printf("fdsfsd");
+			exit(0);
+		}
+
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			write(STDERR_FILENO, "error", 5);
 		close(pipe_fd[0]);
