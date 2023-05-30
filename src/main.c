@@ -15,18 +15,21 @@
 int	main(int argc, char **argv, char **env) {
 
 	t_pipex	pipex;
+	t_cmd	cmd;
 	int		i;
 
 	i = 2;
 	if (argc < 5)
 	 	ft_error(EXIT_FAILURE, "arg nbr");
-	ft_open_files(argv, argc, &pipex);
-	if (dup2(pipex.infile_fd, STDIN_FILENO) == -1)
-		write(STDERR_FILENO, "error", 5);
-	close(pipex.infile_fd);
-	while (i < (argc - 2))
-		ft_fork(&pipex, argv, argv[i++], env);
-	ft_last_cmd(&pipex, argv, argv[i], env);
-	//printf("%d\n", i);
+	ft_get_path(env, argv[1], &cmd);
+	// ft_open_files(argv, argc, &pipex);
+	// if (dup2(pipex.infile_fd, STDIN_FILENO) == -1)
+	// 	write(STDERR_FILENO, "error", 5);
+	// close(pipex.infile_fd);
+	// while (i < (argc - 2))
+	// 	ft_fork(&pipex, argv, argv[i++], env);
+	// ft_last_cmd(&pipex, argv, argv[i], env);
+	//free(cmd.cmd_path);
+	//free(cmd.cmd_param);
 	exit(0);
 }
