@@ -34,7 +34,8 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(errno, "Open Fork");
 	if (pid == 0)
 	{
-		ft_get_path(env, arg, &cmd);
+		if (!ft_get_path(env, arg, &cmd))
+			return (0);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			write(STDERR_FILENO, "error", 5);
 		close(pipe_fd[0]);
