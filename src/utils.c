@@ -8,7 +8,7 @@ int ft_error(int error_code, char *error_message)
     exit(error_code);
 }
 
-char	**ft_free_tab(char **tab)
+int ft_free_tab(char **tab)
 {
 	int	x;
 
@@ -31,10 +31,11 @@ void ft_free_path_tabs(char **tab1, char **tab2, int error)
         ft_error(EXIT_FAILURE, "command not found");
 }
 
-int ft_get_path(char **env, char *argv, t_cmd *cmd)
+int ft_get_path(char **env, char *arg, t_cmd *cmd)
 {
     char	**paths;
-    char	**path_with_param;
+    char    **cmd_full;
+    char    *full_path;
     int 	i;
 
     i = -1;
@@ -44,31 +45,36 @@ int ft_get_path(char **env, char *argv, t_cmd *cmd)
         {
             paths = ft_split(&env[i][5], ':');
             if (!paths)
-            {
-                ft_free_tab(paths);
-                return (-1);
-            }
+                return(ft_free_tab(paths));
         }
     }
+    cmd_full = ft_split(arg, ' ');
+    if (!cmd_full)
+        return(ft_free_tab(paths));
+    i = -1;
+    while (paths[++i])
+    {
+        full_path = ft_strjoin(paths[i], "/");
+        //if (!full_path)
+            //free all
+        cmd->cmd_path = ft_strjoin(full_path, cmd_full[0]);
+        // if (!cmd->cmd_path)
+        //      free(all)
+        if (access(cmd->cmd_path, F_OK) == 0)
+            break ;
+        free(full_path);
+        free(cmd->cmd_path);
+    }
+    // printf("%s\n", cmd->cmd_path);
+//    free(full_path);
+  //  free(cmd->cmd_path);
 
-
-
-
-
-
-
-    path_with_param = ft_split(argv, ' ');
-    if (!path_with_param )
-        ft_free_path_tabs(paths, path_with_param, EXIT_FAILURE);
-    cmd->cmd_path = path_with_param[0];
-    if (!path_with_param[1])
+    if (cmd_full[1])
+        cmd->cmd_param = cmd_full[1];
+    else
         cmd->cmd_param = NULL;
-   // cmd->cmd_param = path_with_param[1];
-    //cmd->cmd_path = ft_get_correct_path(path_with_param[0], paths);
-    //if (!cmd->cmd_path)
-    //    return (-1);
+   // ft_free_tab(cmd_full);
     ft_free_tab(paths);
-    ft_free_tab(path_with_param);
     return (1);
 }
 

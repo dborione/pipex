@@ -27,7 +27,7 @@ typedef struct s_pipex
     t_cmd cmd;
 } t_pipex;
 
-int ft_get_path(char **env, char *argv, t_cmd *cmd);
+int ft_get_path(char **env, char *arg, t_cmd *cmd);
 char	**ft_split(char const *s, char c);
 int ft_error(int error_code, char *error_message);
 char *ft_get_correct_path(char *correct_path, char **paths);
