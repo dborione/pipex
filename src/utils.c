@@ -38,7 +38,7 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 {
 	if (pipex->infile_fd == 0)
 	{
-		printf("awwwwah\n");
+		//printf("awwwwah\n");
 		if (access(argv[1], R_OK) == -1)
 			ft_error(0, "access1");
 		pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
