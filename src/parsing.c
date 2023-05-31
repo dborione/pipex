@@ -44,8 +44,10 @@ int ft_get_full_path(char **cmd_full, char **paths, t_cmd *cmd)
     full_path = NULL;
     cmd_path_clone = NULL;
     i = -1;
+
     while (paths[++i])
     {
+
         full_path = ft_strjoin(paths[i], "/");
         if (!full_path)
             return(ft_free_str(full_path, cmd_path_clone)); //free all;
@@ -56,13 +58,15 @@ int ft_get_full_path(char **cmd_full, char **paths, t_cmd *cmd)
         {
             cmd->cmd_path = ft_strdup(cmd_path_clone);
             //if (!cmd->cmd_path)
-            ft_free_str(full_path, cmd_path_clone);
+           // ft_free_str(full_path, cmd_path_clone);
             return(1);
         }
         // else
+        //     printf("%s\n", paths[i]);
         //      return(ft_free_str(full_path, cmd_path_clone));
         ft_free_str(full_path, cmd_path_clone);
     }
+    //free(cmd_path_clone);
     ft_free_str(full_path, cmd_path_clone);
     return (0);
 }
@@ -82,7 +86,6 @@ int ft_get_path(char **env, char *arg, t_cmd *cmd)
         return (ft_free_tab(paths));
     if (!ft_get_full_path(cmd_full, paths, cmd))
         return (ft_free_tabs(paths, cmd_full));
-
     if (cmd_full[1])
         cmd->cmd_param = ft_strdup(cmd_full[1]);
          //if (!cmd->cmd_param)

@@ -18,7 +18,7 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(errno, "Open Fork");
 	if (pid == 0)
 	{
-		printf("%s\n", arg);
+		//printf("%s\n", arg);
 		if(!ft_get_path(env, arg, &cmd))
 		{
 			printf("aaaaaah\n");
@@ -28,15 +28,17 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 			write(STDERR_FILENO, "erro2", 5);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
+		close(pipex->infile_fd);
 		exec(argv, &cmd, env);
 	}
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		write(STDERR_FILENO, "erro3", 5);
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	close(pipex->infile_fd);
 	waitpid(pid, &status, 0);
 	if WIFEXITED(status)
 	 	return (WEXITSTATUS(status));
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
 	return (1);
 }
 

@@ -23,6 +23,7 @@ typedef struct	s_cmd {
 
 typedef struct s_pipex
 {
+    char *tmp_file;
     int infile_fd;
     int outfile_fd;
     t_cmd cmd;
