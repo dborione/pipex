@@ -1,28 +1,6 @@
 #include "../includes/pipex.h"
 
-void	exec(char **argv, t_cmd *cmd, char **env)
-{
-	int	exec;
 
-	char *arg[] = {cmd->cmd_path, cmd->cmd_param, NULL};
-	exec = execve(cmd->cmd_path, arg, env);
-	if (exec == -1)
-        ft_error(errno, "command not found");
-}
-
-void	ft_open_files(char **argv, int argc, t_pipex *pipex)
-{
-	if (access(argv[1], R_OK) == -1)
-		ft_error(0, "access");
-	if (access(argv[argc - 1], R_OK) == -1)
-		ft_error(0, "access");
-	pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
-	if (pipex->infile_fd == -1)
-        ft_error(errno, "infile open");
-	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
-	if (pipex->outfile_fd == -1)
-        ft_error(errno, "outfile open");
-}
 
 int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 {
@@ -40,19 +18,20 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(errno, "Open Fork");
 	if (pid == 0)
 	{
+		printf("%s\n", arg);
 		if(!ft_get_path(env, arg, &cmd))
 		{
-			printf("fdsfsd");
+			printf("aaaaaah\n");
 			exit(0);
 		}
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			write(STDERR_FILENO, "error", 5);
+			write(STDERR_FILENO, "erro2", 5);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		exec(argv, &cmd, env);
 	}
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		write(STDERR_FILENO, "error", 5);
+		write(STDERR_FILENO, "erro3", 5);
 	waitpid(pid, &status, 0);
 	if WIFEXITED(status)
 	 	return (WEXITSTATUS(status));

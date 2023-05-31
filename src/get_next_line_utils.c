@@ -97,7 +97,7 @@ char	*ft_strjoin_gnl(char *s1, char const *s2)
 	}
 	ft_strlcpy_gnl(s3, s1, (ft_strlen_gnl(s1) + 1));
 	ft_strlcat_gnl(s3, s2, buf);
-	//free(s1);
+	free(s1);
 	//free(s2);
 	return (s3);
 }

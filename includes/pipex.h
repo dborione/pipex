@@ -36,5 +36,6 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex);
 int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env);
 void	exec(char **argv, t_cmd *cmd, char **env);
 int ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env);
+int	ft_here_doc(char **argv, t_pipex *pipex, int i);
 
 #endif
