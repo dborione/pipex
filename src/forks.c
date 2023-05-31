@@ -2,8 +2,11 @@
 
 void	exec(char **argv, t_cmd *cmd, char **env)
 {
+	int	exec;
+
 	char *arg[] = {cmd->cmd_path, cmd->cmd_param, NULL};
-	if (execve(cmd->cmd_path, arg, env) == -1)
+	exec = execve(cmd->cmd_path, arg, env);
+	if (exec == -1)
         ft_error(errno, "command not found");
 }
 
@@ -26,6 +29,7 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	int		pipe_fd[2];
 	int		pid;
 	t_cmd	cmd;
+	int	status;
 
 	cmd.cmd_path = NULL;
 	cmd.cmd_param = NULL;
@@ -36,12 +40,11 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(errno, "Open Fork");
 	if (pid == 0)
 	{
-		if (!ft_get_path(env, arg, &cmd))
+		if(!ft_get_path(env, arg, &cmd))
 		{
 			printf("fdsfsd");
 			exit(0);
 		}
-
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			write(STDERR_FILENO, "error", 5);
 		close(pipe_fd[0]);
@@ -50,16 +53,18 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	}
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		write(STDERR_FILENO, "error", 5);
-	wait(NULL);
+	waitpid(pid, &status, 0);
+	if WIFEXITED(status)
+	 	return (WEXITSTATUS(status));
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	return (1);
 }
 
-void ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env)
+int ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env)
 {
 	t_cmd	cmd;
-
+	int	status;
 	int pid = fork();
 	if (!pid)
 	{
@@ -70,5 +75,8 @@ void ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env)
 			exit(0);
 		exec(argv, &cmd, env);
 	}
-	wait(NULL);
+	waitpid(pid, &status, 0);
+	if WIFEXITED(status)
+	 	return (WEXITSTATUS(status));
+	return (2);
 }

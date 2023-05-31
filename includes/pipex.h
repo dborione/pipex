@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <sys/wait.h>
 #include "../libft/includes/libft.h"
 #include "../get_next_line.h"
 
@@ -34,6 +35,6 @@ int ft_free_tab(char **tab);
 void	ft_open_files(char **argv, int argc, t_pipex *pipex);
 int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env);
 void	exec(char **argv, t_cmd *cmd, char **env);
-void ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env);
+int ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env);
 
 #endif

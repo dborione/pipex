@@ -59,8 +59,8 @@ int ft_get_full_path(char **cmd_full, char **paths, t_cmd *cmd)
             ft_free_str(full_path, cmd_path_clone);
             return(1);
         }
-        // else
-        //     return(ft_free_str(full_path, cmd_path_clone));
+        else
+             return(ft_free_str(full_path, cmd_path_clone));
         ft_free_str(full_path, cmd_path_clone);
     }
     ft_free_str(full_path, cmd_path_clone);
