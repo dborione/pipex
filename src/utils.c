@@ -14,16 +14,15 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 {
 	if (pipex->infile_fd == 0)
 	{
-		//printf("awwwwah\n");
 		if (access(argv[1], R_OK) == -1)
 			ft_error(0, "access1");
-		pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
+		pipex->infile_fd = open(argv[1], O_RDWR | O_TRUNC | O_CREAT, 0777);
 		if (pipex->infile_fd == -1)
 			ft_error(errno, "infile open");
 	}
 	if (access(argv[argc - 1], R_OK) == -1)
-		ft_error(0, "access2");
-	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT, 0777);
+		ft_error(errno, "access2");
+	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (pipex->outfile_fd == -1)
         ft_error(errno, "outfile open");
 }

@@ -29,14 +29,14 @@ typedef struct s_pipex
     t_cmd cmd;
 } t_pipex;
 
-int ft_get_path(char **env, char *arg, t_cmd *cmd);
+int     ft_get_path(char **env, char *arg, t_cmd *cmd);
 char	**ft_split(char const *s, char c);
-int ft_error(int error_code, char *error_message);
-int ft_free_tab(char **tab);
+int     ft_error(int error_code, char *error_message);
+int     ft_free_tab(char **tab);
 void	ft_open_files(char **argv, int argc, t_pipex *pipex);
-int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env);
+int	    ft_fork(t_pipex *pipex, char **argv, char *arg, char **env);
 void	exec(char **argv, t_cmd *cmd, char **env);
-int ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env);
-int	ft_here_doc(char **argv, t_pipex *pipex, int i);
+int     ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env);
+int	    ft_here_doc(char **argv, t_pipex *pipex, int i);
 
 #endif
