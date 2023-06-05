@@ -30,6 +30,7 @@ int    ft_free_all(t_parsing_data *data)
         free(data->cmd_path_clone);
     return (0);
 }
+
 char **ft_get_env(char **env, t_parsing_data *data)
 {
     int i;
@@ -74,7 +75,6 @@ int ft_get_path(char **env, char *arg, t_cmd *cmd)
     t_parsing_data data;
 
     ft_data_init(&data, cmd);
-
     data.env_paths = ft_get_env(env, &data);
     if (!data.env_paths)
         return(ft_free_all(&data));
@@ -87,12 +87,40 @@ int ft_get_path(char **env, char *arg, t_cmd *cmd)
     if (!ft_get_full_path(&data, cmd))
         return(ft_free_all(&data));
 
-    if (data.cmd_full[1])
+    int i = 0;
+    while (data.cmd_full[++i]); 
+
+    cmd->exec_arg = malloc(sizeof(cmd->exec_arg) * i);
+    cmd->exec_arg[0] = strdup(cmd->cmd_path);
+    
+    i = 1;
+    while (data.cmd_full[i])
     {
-        cmd->cmd_param = ft_strdup(data.cmd_full[1]);
-        if (!cmd->cmd_param)
-            return(ft_free_all(&data));
+        cmd->exec_arg[i] = strdup(data.cmd_full[i]);
+        i++;
     }
+    cmd->exec_arg[i] = NULL;
+    //printf("%s\n", cmd->exec_arg[0]);
+    //printf("%s\n", cmd->exec_arg[1]);
+    // printf("%s\n", data.cmd_full[0]);
+  //  printf("%s\n", data.cmd_full[1]);
+
+
+
+    // int i;
+    // i = 1;
+    // while (data.cmd_full[++i]);
+    // char **cmd_param = malloc(sizeof(cmd_param) * i);
+    // i = 1;
+    // int j = 0;
+    // while (data.cmd_full[i])
+    // {
+    //     cmd_param[j++] = ft_strdup(data.cmd_full[i++]);
+    //     if (!cmd_param[j])
+    //         return (ft_free_all(&data));
+    // }
+    // cmd_param[j] = NULL;
+  
     ft_free_all(&data);
     return (1);
 }

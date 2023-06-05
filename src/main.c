@@ -36,8 +36,6 @@ int	main(int argc, char **argv, char **env) {
 	while (i < (argc - 2))
 		ft_fork(&pipex, argv, argv[i++], env);
 	ft_last_cmd(&pipex, argv, argv[i], env);
-	// //free(cmd.cmd_path);
-	// //free(cmd.cmd_param);
 	//unlink(pipex.tmp_file);
 	exit(0);
 }
