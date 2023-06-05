@@ -18,6 +18,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+typedef struct s_parsing_data {
+    char	**paths;
+    char    **cmd_full;
+} t_parsing_data;
+
 typedef struct	s_cmd {
     char *cmd_path;
 	char *cmd_param;

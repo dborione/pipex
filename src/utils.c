@@ -1,23 +1,5 @@
 #include "../includes/pipex.h"
 
-void	exec(char **argv, t_cmd *cmd, char **env)
-{
-	int	exec;
-	char **arg = NULL;
-
-	arg[0] = cmd->cmd_path;
-	if (cmd->cmd_param)
-	{
-		arg[1] = cmd->cmd_param;
-		arg[2] = NULL;
-	}
-	else
-		arg[0] = NULL;
-	printf("%s\n", arg[1]);
-	exec = execve(cmd->cmd_path, arg, env);
-	if (exec == -1)
-        ft_error(CMD_NOT_FOUND, "command not found");
-}
 
 void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 {
@@ -25,7 +7,7 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 	{
 		if (access(argv[1], R_OK) == -1)
 			ft_error(0, "access1");
-		pipex->infile_fd = open(argv[1], O_RDWR | O_TRUNC | O_CREAT, 0777);
+		pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
 		if (pipex->infile_fd == -1)
 			ft_error(0, "infile open");
 	}

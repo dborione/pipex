@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **env) {
 	ft_open_files(argv, argc, &pipex);
 	if (dup2(pipex.infile_fd, STDIN_FILENO) == -1)
 		ft_error(EXIT_FAILURE, "qqqqqqqqq");
-	close(pipex.infile_fd);
+	//close(pipex.infile_fd);
 	while (i < (argc - 2))
 		ft_fork(&pipex, argv, argv[i++], env);
 	ft_last_cmd(&pipex, argv, argv[i], env);

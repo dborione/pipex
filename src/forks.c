@@ -1,6 +1,19 @@
 #include "../includes/pipex.h"
 
 
+void	exec(char **argv, t_cmd *cmd, char **env)
+{
+	int		exec;
+	char	**arg;
+
+	arg[0] = cmd->cmd_path;
+	arg[1] = cmd->cmd_param;
+	arg[2] = NULL;
+
+	exec = execve(cmd->cmd_path, arg, env);
+	if (exec == -1)
+        ft_error(CMD_NOT_FOUND, "command not found");
+}
 
 int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 {
@@ -42,8 +55,10 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 int ft_last_cmd(t_pipex *pipex, char **argv, char *arg, char **env)
 {
 	t_cmd	cmd;
-	int	status;
-	int pid = fork();
+	int		status;
+	int		pid;
+	
+	pid = fork();
 	if (!pid)
 	{
 		if (dup2(pipex->outfile_fd, STDOUT_FILENO) == -1)
