@@ -18,21 +18,18 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 		ft_error(errno, "Open Fork");
 	if (pid == 0)
 	{
-		//printf("%s\n", arg);
 		if(!ft_get_path(env, arg, &cmd))
-		{
-			printf("aaaaaah\n");
-			exit(0);
-		}
+			ft_error(CMD_NOT_FOUND, __func__);
+		//printf("%s\n", cmd.cmd_param);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			write(STDERR_FILENO, "erro2", 5);
+			ft_error(0, __func__);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		close(pipex->infile_fd);
 		exec(argv, &cmd, env);
 	}
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		write(STDERR_FILENO, "erro3", 5);
+		ft_error(0, __func__);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	close(pipex->infile_fd);

@@ -87,9 +87,11 @@ int ft_get_path(char **env, char *arg, t_cmd *cmd)
     if (!ft_get_full_path(cmd_full, paths, cmd))
         return (ft_free_tabs(paths, cmd_full));
     if (cmd_full[1])
+    {
         cmd->cmd_param = ft_strdup(cmd_full[1]);
-         //if (!cmd->cmd_param)
-
+        if (!cmd->cmd_param)
+            ft_error(CMD_NOT_FOUND, "strdup");
+    }
     ft_free_tabs(paths, cmd_full);
     return (1);
 }

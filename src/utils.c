@@ -3,11 +3,20 @@
 void	exec(char **argv, t_cmd *cmd, char **env)
 {
 	int	exec;
+	char **arg = NULL;
 
-	char *arg[] = {cmd->cmd_path, cmd->cmd_param, NULL};
+	arg[0] = cmd->cmd_path;
+	if (cmd->cmd_param)
+	{
+		arg[1] = cmd->cmd_param;
+		arg[2] = NULL;
+	}
+	else
+		arg[0] = NULL;
+	printf("%s\n", arg[1]);
 	exec = execve(cmd->cmd_path, arg, env);
 	if (exec == -1)
-        ft_error(errno, "command not found");
+        ft_error(CMD_NOT_FOUND, "command not found");
 }
 
 void	ft_open_files(char **argv, int argc, t_pipex *pipex)
@@ -18,13 +27,13 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 			ft_error(0, "access1");
 		pipex->infile_fd = open(argv[1], O_RDWR | O_TRUNC | O_CREAT, 0777);
 		if (pipex->infile_fd == -1)
-			ft_error(errno, "infile open");
+			ft_error(0, "infile open");
 	}
 	if (access(argv[argc - 1], R_OK) == -1)
-		ft_error(errno, "access2");
+		ft_error(0, "access2");
 	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (pipex->outfile_fd == -1)
-        ft_error(errno, "outfile open");
+        ft_error(0, "outfile open");
 }
 
 int ft_error(int error_code, char *error_message)
