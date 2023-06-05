@@ -59,5 +59,6 @@ int		ft_last_cmd(t_pipex *pipex, char *arg, char **env);
 int		ft_here_doc(char **argv, t_pipex *pipex, int i);
 void	ft_data_init(t_parsing_data *data, t_cmd *cmd);
 int		ft_free_tab(char **tab);
+int	ft_check_here_doc(int argc, char **argv, t_pipex *pipex, int i);
 
 #endif

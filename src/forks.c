@@ -27,7 +27,7 @@ int	ft_wait_pid(int pid, int *status)
 	return (0);
 }
 
-void	exec(t_cmd *cmd, char **env)
+void	ft_exec(t_cmd *cmd, char **env)
 {
 	int		exec;
 
@@ -36,7 +36,67 @@ void	exec(t_cmd *cmd, char **env)
 		ft_error(CMD_NOT_FOUND, "command not found");
 }
 
+
+void	ft_first_child()
+{
+	close(fd[0][1]);
+	
+}
+
+void	ft_child(int pipe_fd[2], t_pipex *pipex)
+{
+	if (dup2(pipex->infile_fd, STDIN_FILENO) == -1)
+		ft_error(0, "Error Duplicating Stdin");
+	close(pipex->infile_fd);
+	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		ft_error(0, "Error Duplicating Stdout");
+	close(pipe_fd[1]);
+	ft_exec();
+}
+
 int	ft_fork(t_pipex *pipex, char *arg, char **env)
+{
+	int		pipe_fd[2];
+	int		pid;
+
+	if (pipe(pipe_fd) == -1)
+		ft_error(0, "Error Opening Pipe");
+	pid = fork();
+	if (pid == -1)
+		ft_error(0, "Error Creating Fork");
+	if (pid == 0)
+		ft_child();
+	ft_parent();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int	ft_fork2(t_pipex *pipex, char *arg, char **env)
 {
 	t_cmd	cmd;
 	int		pipe_fd[2];

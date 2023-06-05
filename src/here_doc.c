@@ -12,6 +12,17 @@
 
 #include "../includes/pipex.h"
 
+int	ft_check_here_doc(int argc, char **argv, t_pipex *pipex, int i)
+{
+	if (!ft_strncmp(argv[1], "here_doc", 8)
+		&& ft_strlen(argv[1]) == 8)
+			i = ft_here_doc(argv, &pipex, i);
+	else if (argc == 6)
+		ft_error(EXIT_FAILURE, "wrg here_doc");
+	return (i);
+}
+
+
 int	ft_here_doc(char **argv, t_pipex *pipex, int i)
 {
 	char	*line;
