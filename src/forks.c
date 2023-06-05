@@ -33,7 +33,6 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 	{
 		if(!ft_get_path(env, arg, &cmd))
 			ft_error(CMD_NOT_FOUND, __func__);
-		//printf("%s\n", cmd.cmd_param);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			ft_error(0, __func__);
 		close(pipe_fd[0]);

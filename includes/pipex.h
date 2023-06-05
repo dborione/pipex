@@ -19,8 +19,9 @@
 #include <sys/wait.h>
 
 typedef struct s_parsing_data {
-    char	**paths;
+    char	**env_paths;
     char    **cmd_full;
+    char    *cmd_path_clone;
 } t_parsing_data;
 
 typedef struct	s_cmd {

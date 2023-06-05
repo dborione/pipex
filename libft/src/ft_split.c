@@ -103,5 +103,7 @@ char	**ft_split(const char *s, char c)
 	if (!tab)
 		return (NULL);
 	tab = ft_fill_tab(tab, s, c, x);
+	if (!tab)
+		return (ft_free_tab(tab));
 	return (tab);
 }

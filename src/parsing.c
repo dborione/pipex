@@ -1,25 +1,36 @@
 #include "../includes/pipex.h"
 
-
-int ft_free_tabs(char **tab1, char **tab2)
+void    ft_data_init(t_parsing_data *data, t_cmd *cmd)
 {
-    if (tab1)
-        ft_free_tab(tab1);
-    if (tab2)
-        ft_free_tab(tab2);
-    return (0);
+    data->env_paths = NULL;
+    data->cmd_full = NULL;
+    data->cmd_path_clone = NULL;
+    cmd->cmd_param = NULL;
+    cmd->cmd_path = NULL;
 }
 
-int ft_free_str(char *s1, char *s2)
+int ft_free_tab(char **tab)
 {
-    if (s1)
-        free(s1);
-    if (s2)
-        free(s2);
-    return (0);
+	int	x;
+
+	x = 0;
+	while (tab[x])
+		free(tab[x++]);
+	free(tab);
+	return (0);
 }
 
-char **ft_get_env(char **env, char **paths)
+int    ft_free_all(t_parsing_data *data)
+{
+    if (data->env_paths)
+        ft_free_tab(data->env_paths);
+    if (data->cmd_full)
+        ft_free_tab(data->cmd_full);
+    if (data->cmd_path_clone)
+        free(data->cmd_path_clone);
+    return (0);
+}
+char **ft_get_env(char **env, t_parsing_data *data)
 {
     int i;
 
@@ -28,80 +39,60 @@ char **ft_get_env(char **env, char **paths)
     {
         if (!ft_strncmp("PATH=", env[i], 5))
         {
-            paths = ft_split(&env[i][5], ':');
-            if (!paths)
-                ft_error(0, "fd");
-                //return(NULL);
+            data->env_paths = ft_split(&env[i][5], ':');
+            if (!data->env_paths)
+                ft_error(0, "env path split");
         }
     }
-    return(paths);
+    return(data->env_paths);
 }
 
-int ft_get_full_path(char **cmd_full, char **paths, t_cmd *cmd)
+int ft_get_full_path(t_parsing_data *data, t_cmd *cmd)
 {
-    char    *full_path;
-    char    *cmd_path_clone;
     int     i;
 
-    full_path = NULL;
-    cmd_path_clone = NULL;
     i = -1;
-    while (paths[++i])
+    while (data->env_paths[++i])
     {
-        full_path = ft_strjoin(paths[i], "/");
-        if (!full_path)
-            return(ft_free_str(full_path, cmd_path_clone)); //free all;
-        cmd_path_clone = ft_strjoin(full_path, cmd_full[0]); //path/bin/uhgfjkh
-        if (!cmd_path_clone)
-            return(ft_free_str(full_path, cmd_path_clone)); //free(all)
-        if (access(cmd_path_clone, F_OK) == 0)
+        data->cmd_path_clone = ft_strjoin(data->env_paths[i], data->cmd_full[0]);
+        if (!data->cmd_path_clone)
+            return(0);
+        if (access(data->cmd_path_clone, F_OK) == 0)
         {
-            cmd->cmd_path = ft_strdup(cmd_path_clone);
-            //if (!cmd->cmd_path)
-           // ft_free_str(full_path, cmd_path_clone);
-            ft_free_str(full_path, cmd_path_clone);
+            cmd->cmd_path = ft_strdup(data->cmd_path_clone);
+            if (!cmd->cmd_path)
+                return(0);
             return(1);
         }
-        ft_free_str(full_path, cmd_path_clone);
+        free(data->cmd_path_clone);
     }
-    //free(cmd_path_clone);
-    ft_error(0, "fds");
-    return (0);
+    return(0);
 }
 
 int ft_get_path(char **env, char *arg, t_cmd *cmd)
 {
-    char	**paths;
-    char    **cmd_full;
+    t_parsing_data data;
 
-    paths = NULL;
-    cmd_full = NULL;
-    paths = ft_get_env(env, paths);
-    if (!paths)
-        ft_error(0, "fds");
-    cmd_full = ft_split(arg, ' ');
-    if (!cmd_full)
-        return (ft_free_tab(paths));
+    ft_data_init(&data, cmd);
 
+    data.env_paths = ft_get_env(env, &data);
+    if (!data.env_paths)
+        return(ft_free_all(&data));
+    data.cmd_full = ft_split(arg, ' ');
+    if (!data.cmd_full)
+        return(ft_free_all(&data));
+    data.cmd_full[0] = ft_strjoin("/", data.cmd_full[0]);
+    if (!data.cmd_full[0])
+        return(ft_free_all(&data));
+    if (!ft_get_full_path(&data, cmd))
+        return(ft_free_all(&data));
 
-
-
-    if (!ft_get_full_path(cmd_full, paths, cmd))
-        return (ft_free_tabs(paths, cmd_full));
-
-
-
-
-
-    if (cmd_full[1])
+    if (data.cmd_full[1])
     {
-        cmd->cmd_param = ft_strdup(cmd_full[1]);
+        cmd->cmd_param = ft_strdup(data.cmd_full[1]);
         if (!cmd->cmd_param)
-            ft_error(CMD_NOT_FOUND, "strdup");
+            return(ft_free_all(&data));
     }
-    else
-        cmd->cmd_param = NULL;
-    ft_free_tabs(paths, cmd_full);
-    //printf("%s\n", cmd->cmd_path);
+    ft_free_all(&data);
     return (1);
 }
