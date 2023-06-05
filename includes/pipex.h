@@ -27,9 +27,6 @@ typedef struct s_parsing_data {
 typedef struct	s_cmd {
     char **exec_arg;
     char *cmd_path;
-	char *cmd_param;
-    char *file;
-    char *ptr;
 } t_cmd;
 
 typedef struct s_pipex

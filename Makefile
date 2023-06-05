@@ -18,10 +18,16 @@ CFLAGS = -Wall -Wextra
 FILES = main.c	utils.c	forks.c get_next_line.c get_next_line_utils.c \
 		parsing.c here_doc.c \
 
+FILES_BONUS = main_bonus.c	utils_bonus.c	forks_bonus.c get_next_line.c get_next_line_utils.c \
+		parsing_bonus.c here_doc_bonus.c \
+
 SRCS = $(addprefix src/, $(FILES))
+
+SRCS_BONUS = $(addprefix src_bonus/, $(FILES_BONUS))
 
 #	Objects
 OBJS = $(SRCS:.c=.o)
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 #	Others
 NAME = pipex
@@ -48,6 +54,10 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_PATH)
 	@echo "$(GREEN)[Done!]$(DEFAULT)"
 
+bonus: $(LIBFT) $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME) $(LIBFT_PATH)
+	@echo "$(GREEN)[Done!]$(DEFAULT)"
+
 $(LIBFT): 
 	@make -C $(LIBFT_DIR)
 
@@ -56,8 +66,8 @@ clean:
 	@echo "$(YELLOW)[Cleaning...]$(DEFAULT)"
 	@make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS)
+	$(RM) $(OBJS_BONUS)
 	@echo "$(RED)[Objects Cleaned!]$(DEAFULT)"
-
 
 fclean: clean
 	$(RM) $(NAME)
@@ -66,4 +76,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:	clean fclean re all
+.PHONY:	clean fclean re all bonus
