@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # define CMD_NOT_FOUND 127
 # define UNVALID_EXIT_CODE 128
 
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>

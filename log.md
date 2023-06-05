@@ -14,5 +14,6 @@ CMD 1
 			-->fail: free env_path
 						free cmd_full
 						go cmd2
-					
+	- get.full.path
+							
 		

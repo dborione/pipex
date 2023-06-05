@@ -6,11 +6,11 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 11:28:13 by dborione          #+#    #+#             */
-/*   Updated: 2022/12/06 11:55:20 by dborione         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:34:37 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../get_next_line.h"
+#include "../includes/get_next_line.h"
 
 size_t	ft_strlen_gnl(const char *str)
 {
@@ -98,6 +98,5 @@ char	*ft_strjoin_gnl(char *s1, char const *s2)
 	ft_strlcpy_gnl(s3, s1, (ft_strlen_gnl(s1) + 1));
 	ft_strlcat_gnl(s3, s2, buf);
 	free(s1);
-	//free(s2);
 	return (s3);
 }
