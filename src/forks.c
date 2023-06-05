@@ -1,5 +1,11 @@
 #include "../includes/pipex.h"
 
+void ft_close_fds(int pipe_fd_0, int pipe_fd_1, int infile_fd)
+{
+	close(pipe_fd_0);
+	close(pipe_fd_1);
+	close(infile_fd);
+}
 
 void	exec(char **argv, t_cmd *cmd, char **env)
 {
@@ -14,13 +20,12 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 {
 	t_cmd	cmd;
 	int		pipe_fd[2];
-	int		pid;
 	int		status;
+	int		pid;
 
 	if (pipe(pipe_fd) == -1)
 		ft_error(EXIT_FAILURE, "Open Pipe");
-	pid = fork();
-	if (pid == -1)
+	if ((pid = fork()) == -1)
 		ft_error(errno, "Open Fork");
 	if (pid == 0)
 	{
@@ -28,16 +33,12 @@ int	ft_fork(t_pipex *pipex, char **argv, char *arg, char **env)
 			ft_error(CMD_NOT_FOUND, __func__);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			ft_error(0, __func__);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		close(pipex->infile_fd);
+		ft_close_fds(pipe_fd[0], pipe_fd[1], pipex->infile_fd);
 		exec(argv, &cmd, env);
 	}
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		ft_error(0, __func__);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	close(pipex->infile_fd);
+	ft_close_fds(pipe_fd[0], pipe_fd[1], pipex->infile_fd);
 	waitpid(pid, &status, 0);
 	if WIFEXITED(status)
 	 	return (WEXITSTATUS(status));

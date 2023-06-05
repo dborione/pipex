@@ -15,7 +15,6 @@ int	ft_here_doc(char **argv, t_pipex *pipex, int i)
 	line = get_next_line(STDIN_FILENO);
 	if (!strncmp(line, argv[2], delimitor_len))
 		return(i + 1);
-
 	int out_clone = dup(STDOUT_FILENO);
 	if (dup2(pipex->infile_fd, out_clone) == -1)
         printf("2");

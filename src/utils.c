@@ -6,7 +6,7 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 	if (pipex->infile_fd == 0)
 	{
 		if (access(argv[1], R_OK) == -1)
-			ft_error(0, "access1");
+			ft_error(0, "infile open");
 		pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
 		if (pipex->infile_fd == -1)
 			ft_error(0, "infile open");
