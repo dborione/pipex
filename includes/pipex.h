@@ -6,19 +6,18 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 15:14:10 by dborione          #+#    #+#             */
-/*   Updated: 2023/06/05 15:18:36 by dborione         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:27:02 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# define PERM_DENIED 126
 # define CMD_NOT_FOUND 127
-# define UNVALID_EXIT_CODE 128
 
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -32,42 +31,32 @@
 typedef struct s_parsing_data {
 	char	**env;
 	char	**env_paths;
-	char	**cmd_name_and_param;
+	char	**full_arg;
 	char	**exec_arg;
-	char	*cmd_full; //-> path + / + cmd_name_and_param[0]
+	char	*cmd_full;
 }	t_parsing_data;
 
 typedef struct s_pipex
 {
-	t_parsing_data p_data;
-	char	*tmp_file;
-	int		infile_fd;
-	int		outfile_fd;
-	int		pid1;
-	int		pid2;
+	t_parsing_data	p_data;
+	char			*tmp_file;
+	int				infile_fd;
+	int				outfile_fd;
+	int				pid1;
+	int				pid2;
 }	t_pipex;
 
 int		ft_get_path(char *arg, t_pipex *pipex);
-void 	ft_cmd1(t_pipex *pipex, char *argv, int pipe_fd[2]);
-void 	ft_cmd2(t_pipex *pipex, char *argv, int pipe_fd[2]);
-int		ft_error(int error_code, char *error_message);
+void	ft_cmd1(t_pipex *pipex, char *argv, int pipe_fd[2]);
+void	ft_cmd2(t_pipex *pipex, char *argv, int pipe_fd[2]);
+int		ft_error(int error_code);
 void	ft_open_files(char **argv, int argc, t_pipex *pipex);
 void	ft_exec(t_pipex *pipex);
-void    ft_dup2(int fd1, int fd2);
-int 	ft_fork(int pid);
-void  	ft_do_pipe(t_pipex *pipex, char *arg1, char *arg2);
+void	ft_dup2(int fd1, int fd2);
+int		ft_fork(int pid);
 void	ft_waitpids(t_pipex *pipex);
-int	ft_init_pipex(t_pipex *pipex, char **env);
-int	ft_free_tab(char **tab);
+void	ft_init_pipex(t_pipex *pipex, char **env);
+int		ft_free_tab(char **tab);
+int		ft_free_all(t_pipex *pipex);
 
 #endif
-// int		ft_error(int error_code, char *error_message);
-// int		ft_free_tab(char **tab);
-// void	ft_open_files(char **argv, int argc, t_pipex *pipex);
-// int		ft_fork(t_pipex *pipex, char *arg, char **env);
-// void	exec(t_cmd *cmd, char **env);
-// int		ft_last_cmd(t_pipex *pipex, char *arg, char **env);
-// int		ft_here_doc(char **argv, t_pipex *pipex, int i);
-// void	ft_data_init(t_parsing_data *data, t_cmd *cmd);
-// int		ft_free_tab(char **tab);
-// int	ft_check_here_doc(int argc, char **argv, t_pipex *pipex, int i);
