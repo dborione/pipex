@@ -29,16 +29,14 @@ int	ft_init_pipex(t_pipex *pipex, char **env)
 void	ft_waitpids(t_pipex *pipex)
 {
 	int	status;
-	waitpid(pipex->pid1, &status, NULL);
-	waitpid(pipex->pid2, &status, NULL);
+	waitpid(pipex->pid1, &status, 0);
+	waitpid(pipex->pid2, &status, 0);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
 	int		i;
-	int		pid1;
-	int		pid2;
 
 	i = 2;
 	ft_init_pipex(&pipex, env);
