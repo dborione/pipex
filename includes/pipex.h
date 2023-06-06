@@ -43,6 +43,8 @@ typedef struct s_pipex
 	char	*tmp_file;
 	int		infile_fd;
 	int		outfile_fd;
+	int		pid1;
+	int		pid2;
 }	t_pipex;
 
 int	ft_get_path(char *arg, t_pipex *pipex);
