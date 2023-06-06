@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra
 
 #	Sources
 FILES = main.c forks.c \
-		parsing.c \
+		parsing.c utils.c \
 
 FILES_BONUS = main_bonus.c	utils_bonus.c	forks_bonus.c get_next_line.c get_next_line_utils.c \
 		parsing_bonus.c here_doc_bonus.c \
@@ -54,9 +54,9 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_PATH)
 	@echo "$(GREEN)[Done!]$(DEFAULT)"
 
-bonus: $(LIBFT) $(OBJS_BONUS)
-	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME) $(LIBFT_PATH)
-	@echo "$(GREEN)[Done!]$(DEFAULT)"
+#bonus: $(LIBFT) $(OBJS_BONUS)
+#	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME) $(LIBFT_PATH)
+#	@echo "$(GREEN)[Done!]$(DEFAULT)"
 
 $(LIBFT): 
 	@make -C $(LIBFT_DIR)
@@ -66,7 +66,7 @@ clean:
 	@echo "$(YELLOW)[Cleaning...]$(DEFAULT)"
 	@make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS)
-	$(RM) $(OBJS_BONUS)
+#	$(RM) $(OBJS_BONUS)
 	@echo "$(RED)[Objects Cleaned!]$(DEAFULT)"
 
 fclean: clean

@@ -57,6 +57,8 @@ void    ft_dup2(int fd1, int fd2);
 int 	ft_fork(int pid);
 void  	ft_do_pipe(t_pipex *pipex, char *arg1, char *arg2);
 void	ft_waitpids(t_pipex *pipex);
+int	ft_init_pipex(t_pipex *pipex, char **env);
+int	ft_free_tab(char **tab);
 
 #endif
 // int		ft_error(int error_code, char *error_message);

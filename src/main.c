@@ -18,11 +18,18 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex	pipex;
+  	int pipe_fd[2];
 
 	ft_init_pipex(&pipex, env);
 	//i = ft_check_here_doc(argc, argv, &pipex, i);
+
 	ft_open_files(argv, argc, &pipex);
-	ft_do_pipe(&pipex, argv[2], argv[argc - 2]);
+	if (pipe(pipe_fd) == -1)
+	  ft_error(0, "Error Opening Pipe");
+	ft_cmd1(&pipex, argv[2], pipe_fd);
+  	ft_cmd2(&pipex, argv[argc - 2], pipe_fd);
+  	ft_waitpids(&pipex);
+
 	//unlink(pipex.tmp_file);
 	return (0);
 }

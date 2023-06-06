@@ -54,5 +54,6 @@ int	ft_free_tab(char **tab)
 int	ft_error(int error_code, char *error_message)
 {
 	perror (error_message);
-	exit(error_code);
+	//exit(error_code);
+    return (0);
 }

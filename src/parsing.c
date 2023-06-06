@@ -30,6 +30,29 @@ char	**ft_get_env(t_pipex *pipex)
 	return (pipex->p_data.env_paths);
 }
 
+int	ft_path_as_arg(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (pipex->p_data.cmd_name_and_param[i])
+		i++;
+	pipex->p_data.exec_arg = malloc(sizeof(pipex->p_data.exec_arg) * (i + 1));
+	pipex->p_data.exec_arg[0] = ft_strdup(pipex->p_data.cmd_name_and_param[0]);
+	if (!pipex->p_data.exec_arg[0])
+		return (ft_free_all(pipex));
+	i = 1;
+	while (pipex->p_data.cmd_name_and_param[i])
+	{
+		pipex->p_data.exec_arg[i] = ft_strdup(pipex->p_data.cmd_name_and_param[i]);
+		if (!pipex->p_data.exec_arg[i])
+			return (ft_free_tab(pipex->p_data.exec_arg));
+		i++;
+	}
+	pipex->p_data.exec_arg[i] = NULL;
+	return (1);
+}
+
 int	ft_get_exec_arg(t_pipex *pipex)
 {
 	int	i;
@@ -37,12 +60,14 @@ int	ft_get_exec_arg(t_pipex *pipex)
 	i = 0;
 	while (pipex->p_data.cmd_name_and_param[i])
 		i++;
-	pipex->p_data.exec_arg = malloc(sizeof(pipex->p_data.exec_arg) * ( i + 1));
-	pipex->p_data.exec_arg[0] = strdup(pipex->p_data.cmd_full);
+	pipex->p_data.exec_arg = malloc(sizeof(pipex->p_data.exec_arg) * (i + 1));
+	pipex->p_data.exec_arg[0] = ft_strdup(pipex->p_data.cmd_full);
+	if (!pipex->p_data.exec_arg[0])
+		return (ft_free_all(pipex));
 	i = 1;
 	while (pipex->p_data.cmd_name_and_param[i])
 	{
-		pipex->p_data.exec_arg[i] = strdup(pipex->p_data.cmd_name_and_param[i]);
+		pipex->p_data.exec_arg[i] = ft_strdup(pipex->p_data.cmd_name_and_param[i]);
 		if (!pipex->p_data.exec_arg[i])
 			return (ft_free_tab(pipex->p_data.exec_arg));
 		i++;
@@ -74,6 +99,8 @@ int	ft_get_full_path(t_pipex *pipex)
 		};
 		free(tmp);
 	}
+	//ft_error(CMD_NOT_FOUND, pipex->p_data.cmd_name_and_param[0]);
+	//ft_error(CMD_NOT_FOUND, "command not found");
 	//ft_free_tab(pipex->p_data.env_paths);
 	//ft_free_tab(pipex->p_data.cmd_full);
 	return (2);
@@ -81,12 +108,12 @@ int	ft_get_full_path(t_pipex *pipex)
 
 int	ft_get_path(char *arg, t_pipex *pipex)
 {
-    pipex->p_data.env_paths = ft_get_env(pipex);
-
-    pipex->p_data.cmd_name_and_param = ft_split(arg, ' ');
+	pipex->p_data.cmd_name_and_param = ft_split(arg, ' ');
     if (!pipex->p_data.cmd_name_and_param)
 		return (ft_free_all(pipex));
-
+	if (access(pipex->p_data.cmd_name_and_param[0], F_OK) == 0)
+		return (ft_path_as_arg(pipex));
+    pipex->p_data.env_paths = ft_get_env(pipex);
     pipex->p_data.cmd_full = ft_strjoin("/", pipex->p_data.cmd_name_and_param[0]);
 	if (!pipex->p_data.cmd_full)
 		return (ft_free_all(pipex));
