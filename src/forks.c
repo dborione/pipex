@@ -14,6 +14,7 @@ void    ft_dup2(int fd1, int fd2)
 {
   if (dup2(fd1, fd2) == -1)
     ft_error(0, "Error With Dup2");
+  close(fd1);
 }
 
 int ft_fork(int pid)
@@ -24,42 +25,40 @@ int ft_fork(int pid)
     return (pid);
 }
 
-void ft_cmd1(t_pipex *pipex, char *argv)
+void  ft_do_pipe(t_pipex *pipex, char *arg1, char *arg2)
 {
   int pipe_fd[2];
 
   if (pipe(pipe_fd) == -1)
 	  ft_error(0, "Error Opening Pipe");
+  ft_cmd1(pipex, arg1, pipe_fd);
+  ft_cmd2(pipex, arg2, pipe_fd);
+  ft_waitpids(pipex);
+}
+
+
+void ft_cmd1(t_pipex *pipex, char *argv, int *pipe_fd)
+{
   pipex->pid1 = ft_fork(pipex->pid1);
   if (pipex->pid1 == 0)
   {
+    close(pipe_fd[0]);
     ft_get_path(argv, pipex);
     ft_dup2(pipex->infile_fd, STDIN_FILENO);
-    close(pipex->infile_fd);
 	  ft_dup2(pipe_fd[1], STDOUT_FILENO);
-	  close(pipe_fd[1]);
-    close(pipe_fd[0]);
 	  ft_exec(pipex);
   }
-  close(pipe_fd[0]);
-  close(pipe_fd[1]);
 }
 
-void ft_cmd2(t_pipex *pipex, char *argv)
+void ft_cmd2(t_pipex *pipex, char *argv, int *pipe_fd)
 {
-  int pipe_fd[2];
-
-  if (pipe(pipe_fd) == -1)
-		ft_error(0, "Error Opening Pipe");
   pipex->pid2 = ft_fork(pipex->pid2);
   if (pipex->pid2 == 0)
   {
+    close(pipe_fd[1]);
     ft_get_path(argv, pipex);
     ft_dup2(pipe_fd[0], STDIN_FILENO);
-    close(pipe_fd[0]);
 	  ft_dup2(pipex->outfile_fd, STDOUT_FILENO);
-	  close(pipex->outfile_fd);
-    close(pipe_fd[1]);
 	  ft_exec(pipex);
   }
   close(pipe_fd[0]);
