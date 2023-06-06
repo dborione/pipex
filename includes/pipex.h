@@ -46,7 +46,10 @@ typedef struct s_pipex
 }	t_pipex;
 
 int	ft_get_path(char *arg, t_pipex *pipex);
-char	**ft_split(char const *s, char c);
+void ft_cmd1(t_pipex *pipex, char *argv);
+void ft_cmd2(t_pipex *pipex, char *argv);
+	int	ft_error(int error_code, char *error_message);
+	void	ft_open_files(char **argv, int argc, t_pipex *pipex);
 // int		ft_error(int error_code, char *error_message);
 // int		ft_free_tab(char **tab);
 // void	ft_open_files(char **argv, int argc, t_pipex *pipex);

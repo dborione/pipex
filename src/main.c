@@ -32,12 +32,17 @@ int	main(int argc, char **argv, char **env)
 	i = 2;
 	ft_init_pipex(&pipex, env);
 	//i = ft_check_here_doc(argc, argv, &pipex, i);
-	//ft_open_files(argv, argc, &pipex);
+	ft_open_files(argv, argc, &pipex);
+	//ft_get_path(argv[i], &pipex);
+	//printf("%s\n", pipex.p_data.exec_arg[0]);
+	//printf("%s\n", pipex.p_data.exec_arg[1]);
 
-	ft_get_path(argv[i], &pipex);
-	printf("%s\n", pipex.p_data.exec_arg[0]);
-	printf("%s\n", pipex.p_data.exec_arg[1]);
-	printf("%s\n", pipex.p_data.exec_arg[2]);
+	ft_cmd1(&pipex, argv[i]);
+	ft_cmd2(&pipex, argv[argc - 1]);
+
+	wait(NULL);
+	//printf("%s\n", pipex.p_data.exec_arg[1]);
+	//printf("%s\n", pipex.p_data.exec_arg[2]);
 	//printf("%s\n", pipex.p_data.exec_arg[3]);
 	// if (dup2(pipex.infile_fd, STDIN_FILENO) == -1)
 	// 	ft_error(EXIT_FAILURE, "dup2");

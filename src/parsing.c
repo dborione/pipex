@@ -1,6 +1,24 @@
 
 #include "../includes/pipex.h"
 
+void	ft_open_files(char **argv, int argc, t_pipex *pipex)
+{
+	if (pipex->infile_fd == 0)
+	{
+		if (access(argv[1], R_OK) == -1)
+			ft_error(0, "infile open");
+		pipex->infile_fd = open(argv[1], O_RDWR | O_CREAT, 0777);
+		if (pipex->infile_fd == -1)
+			ft_error(0, "infile open");
+	}
+	if (access(argv[argc - 1], R_OK) == -1)
+		ft_error(0, "access2");
+	pipex->outfile_fd = open(argv[argc - 1],
+			O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	if (pipex->outfile_fd == -1)
+		ft_error(0, "outfile open");
+}
+
 int	ft_free_tab(char **tab)
 {
 	int	x;
@@ -70,20 +88,25 @@ int	ft_get_exec_arg(t_pipex *pipex)
 int	ft_get_full_path(t_pipex *pipex)
 {
 	int	i;
+	char	*tmp;
 
 	i = -1;
 	while (pipex->p_data.env_paths[++i])
 	{
-		pipex->p_data.cmd_full = ft_strjoin(pipex->p_data.env_paths[i],
+		tmp = ft_strjoin(pipex->p_data.env_paths[i],
 				pipex->p_data.cmd_full);
-		if (!pipex->p_data.cmd_full)
+		if (!tmp)
 			return (0);
-		if (access(pipex->p_data.cmd_full, F_OK) == 0)
+		if (access(tmp, F_OK) == 0)
 		{
+			pipex->p_data.cmd_full = ft_strdup(tmp);
+			if (!pipex->p_data.cmd_full)
+				return (0);
+			free(tmp);
 			ft_get_exec_arg(pipex);
 		 	return (1);
 		};
-		free(pipex->p_data.cmd_full);
+		free(tmp);
 	}
 	//ft_free_tab(pipex->p_data.env_paths);
 	//ft_free_tab(pipex->p_data.cmd_full);
@@ -101,11 +124,9 @@ int	ft_get_path(char *arg, t_pipex *pipex)
     pipex->p_data.cmd_full = ft_strjoin("/", pipex->p_data.cmd_name_and_param[0]);
 	if (!pipex->p_data.cmd_full)
 		return (ft_free_all(pipex));
-
 	if (!ft_get_full_path(pipex))
 		return (ft_free_all(pipex));
 	else if (ft_get_full_path(pipex) == 2)
 		return (0);
-	//printf("%s\n", pipex->p_data.exec_arg[0]);
     return (1);
 }
