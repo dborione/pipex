@@ -15,8 +15,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 #	Sources
-FILES = main.c	utils.c	forks.c get_next_line.c get_next_line_utils.c \
-		parsing.c here_doc.c \
+FILES = main.c \
+		parsing.c \
 
 FILES_BONUS = main_bonus.c	utils_bonus.c	forks_bonus.c get_next_line.c get_next_line_utils.c \
 		parsing_bonus.c here_doc_bonus.c \

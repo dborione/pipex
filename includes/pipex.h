@@ -30,35 +30,32 @@
 # include <sys/wait.h>
 
 typedef struct s_parsing_data {
+	char	**env;
 	char	**env_paths;
-	char	**cmd_full;
-	char	*cmd_path_clone;
-}	t_parsing_data;
-
-typedef struct s_cmd {
+	char	**cmd_name_and_param;
 	char	**exec_arg;
-	char	*cmd_path;
-}	t_cmd;
+	char	*cmd_full; //-> path + / + cmd_name_and_param[0]
+}	t_parsing_data;
 
 typedef struct s_pipex
 {
+	t_parsing_data p_data;
 	char	*tmp_file;
 	int		infile_fd;
 	int		outfile_fd;
-	t_cmd	cmd;
 }	t_pipex;
 
-int		ft_get_path(char **env, char *arg, t_cmd *cmd);
+int	ft_get_path(char *arg, t_pipex *pipex);
 char	**ft_split(char const *s, char c);
-int		ft_error(int error_code, char *error_message);
-int		ft_free_tab(char **tab);
-void	ft_open_files(char **argv, int argc, t_pipex *pipex);
-int		ft_fork(t_pipex *pipex, char *arg, char **env);
-void	exec(t_cmd *cmd, char **env);
-int		ft_last_cmd(t_pipex *pipex, char *arg, char **env);
-int		ft_here_doc(char **argv, t_pipex *pipex, int i);
-void	ft_data_init(t_parsing_data *data, t_cmd *cmd);
-int		ft_free_tab(char **tab);
-int	ft_check_here_doc(int argc, char **argv, t_pipex *pipex, int i);
+// int		ft_error(int error_code, char *error_message);
+// int		ft_free_tab(char **tab);
+// void	ft_open_files(char **argv, int argc, t_pipex *pipex);
+// int		ft_fork(t_pipex *pipex, char *arg, char **env);
+// void	exec(t_cmd *cmd, char **env);
+// int		ft_last_cmd(t_pipex *pipex, char *arg, char **env);
+// int		ft_here_doc(char **argv, t_pipex *pipex, int i);
+// void	ft_data_init(t_parsing_data *data, t_cmd *cmd);
+// int		ft_free_tab(char **tab);
+// int	ft_check_here_doc(int argc, char **argv, t_pipex *pipex, int i);
 
 #endif
