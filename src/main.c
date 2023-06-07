@@ -20,9 +20,9 @@ int	main(int argc, char **argv, char **env)
 	ft_init_pipex(&pipex, env);
 	ft_open_files(argv, argc, &pipex);
 	if (pipe(pipe_fd) == -1)
-		ft_error(errno);
+		ft_error(errno, &pipex);
 	ft_cmd1(&pipex, argv[2], pipe_fd);
 	ft_cmd2(&pipex, argv[argc - 2], pipe_fd);
 	ft_waitpids(&pipex);
-	return (0);
+	exit (pipex.exit_status);
 }

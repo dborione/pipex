@@ -30,18 +30,15 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 	pipex->outfile_fd = open(argv[argc - 1],
 			O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (pipex->outfile_fd == -1)
-		ft_error(errno);
-	if (pipex->infile_fd == 0)
-	{
-		if (access(argv[1], R_OK) == -1)
-			ft_error(errno);
-		pipex->infile_fd = open(argv[1], O_RDONLY, 0777);
-		if (pipex->infile_fd == -1)
-			ft_error(EACCES);
-	}
+		ft_error(errno, pipex);
+	if (access(argv[1], R_OK) == -1)
+		ft_error(errno, pipex);
+	pipex->infile_fd = open(argv[1], O_RDONLY, 0777);
+	if (pipex->infile_fd == -1)
+		ft_error(EACCES, pipex);
 }
 
-int	ft_error(int error_code)
+int	ft_error(int error_code, t_pipex *pipex)
 {
 	if (error_code == EINVAL)
 		perror("Invalid Argument");
@@ -49,6 +46,7 @@ int	ft_error(int error_code)
 		perror("Command not found");
 	if (error_code == EACCES)
 		perror("Permission denied");
+	pipex->exit_status = error_code;
 	exit(error_code);
 }
 

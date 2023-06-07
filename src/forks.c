@@ -14,26 +14,26 @@
 
 void	ft_cmd1(t_pipex *pipex, char *argv, int *pipe_fd)
 {
-	pipex->pid1 = ft_fork(pipex->pid1);
+	pipex->pid1 = ft_fork(pipex->pid1, pipex);
 	if (pipex->pid1 == 0)
 	{
 		close(pipe_fd[0]);
 		ft_get_path(argv, pipex);
-		ft_dup2(pipex->infile_fd, STDIN_FILENO);
-		ft_dup2(pipe_fd[1], STDOUT_FILENO);
+		ft_dup2(pipex->infile_fd, STDIN_FILENO, pipex);
+		ft_dup2(pipe_fd[1], STDOUT_FILENO, pipex);
 		ft_exec(pipex);
 	}
 }
 
 void	ft_cmd2(t_pipex *pipex, char *argv, int *pipe_fd)
 {
-	pipex->pid2 = ft_fork(pipex->pid2);
+	pipex->pid2 = ft_fork(pipex->pid2, pipex);
 	if (pipex->pid2 == 0)
 	{
 		close(pipe_fd[1]);
 		ft_get_path(argv, pipex);
-		ft_dup2(pipe_fd[0], STDIN_FILENO);
-		ft_dup2(pipex->outfile_fd, STDOUT_FILENO);
+		ft_dup2(pipe_fd[0], STDIN_FILENO, pipex);
+		ft_dup2(pipex->outfile_fd, STDOUT_FILENO, pipex);
 		ft_exec(pipex);
 	}
 	close(pipe_fd[0]);

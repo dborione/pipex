@@ -23,7 +23,7 @@ char	**ft_get_env(t_pipex *pipex)
 		{
 			pipex->p_data.env_paths = ft_split(&pipex->p_data.env[i][5], ':');
 			if (!pipex->p_data.env_paths)
-				ft_error(errno);
+				ft_error(127, pipex);
 		}
 	}
 	return (pipex->p_data.env_paths);
@@ -87,7 +87,7 @@ int	ft_get_full_path(t_pipex *pipex)
 				pipex->p_data.cmd_full);
 		if (!tmp)
 			return (0);
-		if (access(tmp, F_OK) == 0)
+		if (access(tmp, X_OK) == 0)
 		{
 			pipex->p_data.cmd_full = ft_strdup(tmp);
 			if (!pipex->p_data.cmd_full)
@@ -114,7 +114,7 @@ int	ft_get_path(char *arg, t_pipex *pipex)
 	if (!ft_get_full_path(pipex))
 	{
 		ft_free_all(pipex);
-		ft_error(CMD_NOT_FOUND);
+		ft_error(CMD_NOT_FOUND, pipex);
 	}
 	return (1);
 }

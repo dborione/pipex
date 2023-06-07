@@ -16,6 +16,7 @@ void	ft_waitpids(t_pipex *pipex)
 {
 	int	status;
 
+	status = WEXITSTATUS(status);
 	waitpid(pipex->pid1, &status, 0);
 	waitpid(pipex->pid2, &status, 0);
 }
@@ -27,20 +28,20 @@ void	ft_exec(t_pipex *pipex)
 	exec = execve(pipex->p_data.exec_arg[0],
 			pipex->p_data.exec_arg, pipex->p_data.env);
 	if (exec == -1)
-		ft_error(CMD_NOT_FOUND);
+		ft_error(CMD_NOT_FOUND, pipex);
 }
 
-void	ft_dup2(int fd1, int fd2)
+void	ft_dup2(int fd1, int fd2, t_pipex *pipex)
 {
 	if (dup2(fd1, fd2) == -1)
-		ft_error(errno);
+		ft_error(errno, pipex);
 	close(fd1);
 }
 
-int	ft_fork(int pid)
+int	ft_fork(int pid, t_pipex *pipex)
 {
 	pid = fork();
 	if (pid == -1)
-		ft_error(errno);
+		ft_error(errno, pipex);
 	return (pid);
 }

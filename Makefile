@@ -12,7 +12,7 @@
 
 #	Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 
 #	Sources
 FILES = main.c forks.c \
@@ -48,18 +48,19 @@ DEFAULT = \033[0m
 all :	$(NAME)
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJS)
+$(LIBFT): 
+	make -C $(LIBFT_DIR)
+
+$(NAME): $(OBJS)
+	@make -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_PATH)
 	@echo "$(GREEN)[Done!]$(DEFAULT)"
 
 #bonus: $(LIBFT) $(OBJS_BONUS)
 #	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME) $(LIBFT_PATH)
 #	@echo "$(GREEN)[Done!]$(DEFAULT)"
-
-$(LIBFT): 
-	@make -C $(LIBFT_DIR)
 
 #	Cleaning
 clean:
