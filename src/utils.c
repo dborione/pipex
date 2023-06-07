@@ -14,6 +14,7 @@
 
 void	ft_init_pipex(t_pipex *pipex, char **argv, char **env)
 {
+	pipex->p_data.argv = NULL;
 	pipex->p_data.env = env;
 	pipex->p_data.env_paths = NULL;
 	pipex->p_data.full_arg = NULL;
@@ -27,28 +28,35 @@ void	ft_init_pipex(t_pipex *pipex, char **argv, char **env)
 
 void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 {
+	if (access(argv[1], F_OK) == -1)
+	{
+		pipex->p_data.argv = argv[1];
+		ft_error(NO_FILE, pipex);
+	}
+	pipex->infile_fd = open(argv[1], O_RDONLY, 0777);
+	if (pipex->infile_fd == -1)
+	{
+		pipex->p_data.argv = argv[1];
+		ft_error(NO_FILE, pipex);
+	}
 	pipex->outfile_fd = open(argv[argc - 1],
 			O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (pipex->outfile_fd == -1)
+	{
+		pipex->p_data.argv = argv[argc - 1];
 		ft_error(NO_FILE, pipex);
-	if (access(argv[1], F_OK) == -1)
-		ft_error(CMD_NOT_FOUND, pipex);
-	pipex->infile_fd = open(argv[1], O_RDONLY, 0777);
-	if (pipex->infile_fd == -1)
-		ft_error(NO_FILE, pipex);
+	}
 }
 
 int	ft_error(int error_code, t_pipex *pipex)
 {
-	if (error_code == NO_FILE)
-		perror("No such file or directory");
 	if (error_code == CMD_NOT_FOUND)
 	{
-		ft_putstr_fd(pipex->p_data.cmd_full, STDERR_FILENO);
+		ft_putstr_fd(pipex->p_data.argv, STDERR_FILENO);
 		ft_putstr_fd(" :command not found\n", STDERR_FILENO);
 	}
-	if (error_code == EACCES)
-		perror("Permission denied");
+	else
+		perror(pipex->p_data.argv);
 	pipex->exit_status = error_code;
 	ft_free_all(pipex);
 	exit(error_code);

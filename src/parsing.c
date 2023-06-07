@@ -102,6 +102,7 @@ int	ft_get_full_path(t_pipex *pipex)
 
 int	ft_get_path(char *arg, t_pipex *pipex)
 {
+    pipex->p_data.argv = arg;
 	pipex->p_data.full_arg = ft_split(arg, ' ');
 	if (!pipex->p_data.full_arg)
 		return (ft_free_all(pipex));
