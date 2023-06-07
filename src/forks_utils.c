@@ -34,7 +34,7 @@ void	ft_exec(t_pipex *pipex)
 void	ft_dup2(int fd1, int fd2, t_pipex *pipex)
 {
 	if (dup2(fd1, fd2) == -1)
-		ft_error(errno, pipex);
+		ft_error(2, pipex);
 	close(fd1);
 }
 
@@ -42,6 +42,6 @@ int	ft_fork(int pid, t_pipex *pipex)
 {
 	pid = fork();
 	if (pid == -1)
-		ft_error(errno, pipex);
+		ft_error(2, pipex);
 	return (pid);
 }

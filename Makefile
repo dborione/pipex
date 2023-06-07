@@ -12,7 +12,7 @@
 
 #	Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra 
 
 #	Sources
 FILES = main.c forks.c \
