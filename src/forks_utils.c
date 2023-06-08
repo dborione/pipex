@@ -16,9 +16,9 @@ void	ft_waitpids(t_pipex *pipex)
 {
 	int	status;
 
-	status = WEXITSTATUS(status);
 	waitpid(pipex->pid1, &status, 0);
 	waitpid(pipex->pid2, &status, 0);
+	pipex->exit_status = WEXITSTATUS(status);
 }
 
 void	ft_exec(t_pipex *pipex)

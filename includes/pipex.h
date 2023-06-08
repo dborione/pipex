@@ -48,7 +48,7 @@ typedef struct s_pipex
 	int				exit_status;
 }	t_pipex;
 
-void	ft_init_pipex(t_pipex *pipex, char **argv, char **env);
+void	ft_init_pipex(t_pipex *pipex, char **env);
 void	ft_open_files(char **argv, int argc, t_pipex *pipex);
 void	ft_cmd1(t_pipex *pipex, char *argv, int *pipe_fd);
 void	ft_cmd2(t_pipex *pipex, char *argv, int *pipe_fd);

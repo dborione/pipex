@@ -12,7 +12,7 @@
 
 #include "../includes/pipex.h"
 
-void	ft_init_pipex(t_pipex *pipex, char **argv, char **env)
+void	ft_init_pipex(t_pipex *pipex, char **env)
 {
 	pipex->p_data.argv = NULL;
 	pipex->p_data.env = env;
@@ -51,6 +51,7 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 
 int	ft_error(int error_code, t_pipex *pipex)
 {
+	pipex->exit_status = error_code;
 	if (error_code == CMD_NOT_FOUND)
 	{
 		ft_putstr_fd(pipex->p_data.argv, STDERR_FILENO);
@@ -58,10 +59,8 @@ int	ft_error(int error_code, t_pipex *pipex)
 	}
 	else
 		perror(pipex->p_data.argv);
-	pipex->exit_status = error_code;
 	ft_free_all(pipex);
 	exit(error_code);
-	//return (0);
 }
 
 int	ft_free_all(t_pipex *pipex)
