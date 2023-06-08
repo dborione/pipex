@@ -6,7 +6,7 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 12:45:02 by dborione          #+#    #+#             */
-/*   Updated: 2023/06/06 17:22:09 by dborione         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:12:26 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	main(int argc, char **argv, char **env)
 	t_pipex	pipex;
 	int		pipe_fd[2];
 
+	if (argc != 5)
+		return (2);
 	ft_init_pipex(&pipex, env);
 	ft_open_files(argv, argc, &pipex);
 	if (pipe(pipe_fd) == -1)
