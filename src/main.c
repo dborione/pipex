@@ -26,5 +26,7 @@ int	main(int argc, char **argv, char **env)
 	ft_cmd1(&pipex, argv[2], pipe_fd);
 	ft_cmd2(&pipex, argv[argc - 2], pipe_fd);
 	ft_waitpids(&pipex);
+	close(pipex.infile_fd);
+	close(pipex.outfile_fd);
 	return (pipex.exit_status);
 }
