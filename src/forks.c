@@ -38,5 +38,4 @@ void	ft_cmd2(t_pipex *pipex, char *argv, int *pipe_fd)
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	ft_waitpids(pipex);
 }

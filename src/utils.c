@@ -34,17 +34,17 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 		pipex->p_data.argv = argv[1];
 		ft_error(NO_FILE, pipex);
 	}
+	pipex->outfile_fd = open(argv[argc - 1],
+		O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	if (pipex->outfile_fd == -1)
+	{
+		pipex->p_data.argv = argv[argc - 1];
+		ft_error(NO_FILE, pipex);
+	}
 	pipex->infile_fd = open(argv[1], O_RDONLY, 0777);
 	if (pipex->infile_fd == -1)
 	{
 		pipex->p_data.argv = argv[1];
-		ft_error(NO_FILE, pipex);
-	}
-	pipex->outfile_fd = open(argv[argc - 1],
-			O_WRONLY | O_TRUNC | O_CREAT, 0777);
-	if (pipex->outfile_fd == -1)
-	{
-		pipex->p_data.argv = argv[argc - 1];
 		ft_error(NO_FILE, pipex);
 	}
 }

@@ -23,5 +23,6 @@ int	main(int argc, char **argv, char **env)
 		ft_error(2, &pipex);
 	ft_cmd1(&pipex, argv[2], pipe_fd);
 	ft_cmd2(&pipex, argv[argc - 2], pipe_fd);
+	ft_waitpids(&pipex);
 	return (pipex.exit_status);
 }
