@@ -113,9 +113,6 @@ int	ft_get_path(char *arg, t_pipex *pipex)
 	if (!pipex->p_data.cmd_full)
 		return (ft_free_all(pipex));
 	if (!ft_get_full_path(pipex))
-	{
-		//ft_free_all(pipex);
 		return (ft_error(CMD_NOT_FOUND, pipex));
-	}
 	return (1);
 }

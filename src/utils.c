@@ -24,6 +24,7 @@ void	ft_init_pipex(t_pipex *pipex, char **argv, char **env)
 	pipex->outfile_fd = 0;
 	pipex->pid1 = 0;
 	pipex->pid2 = 0;
+	pipex->exit_status = 0;
 }
 
 void	ft_open_files(char **argv, int argc, t_pipex *pipex)
@@ -60,7 +61,7 @@ int	ft_error(int error_code, t_pipex *pipex)
 	pipex->exit_status = error_code;
 	ft_free_all(pipex);
 	exit(error_code);
-	return (0);
+	//return (0);
 }
 
 int	ft_free_all(t_pipex *pipex)
