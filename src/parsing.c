@@ -6,7 +6,7 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:18:53 by dborione          #+#    #+#             */
-/*   Updated: 2023/06/06 17:23:02 by dborione         ###   ########.fr       */
+/*   Updated: 2023/06/08 10:55:43 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	ft_get_full_path(t_pipex *pipex)
 
 int	ft_get_path(char *arg, t_pipex *pipex)
 {
-    pipex->p_data.argv = arg;
+	pipex->p_data.argv = arg;
 	pipex->p_data.full_arg = ft_split(arg, ' ');
 	if (!pipex->p_data.full_arg)
 		return (ft_free_all(pipex));

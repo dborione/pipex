@@ -6,7 +6,7 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 17:19:54 by dborione          #+#    #+#             */
-/*   Updated: 2023/06/06 17:24:46 by dborione         ###   ########.fr       */
+/*   Updated: 2023/06/08 10:55:56 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_open_files(char **argv, int argc, t_pipex *pipex)
 		ft_error(NO_FILE, pipex);
 	}
 	pipex->outfile_fd = open(argv[argc - 1],
-		O_WRONLY | O_TRUNC | O_CREAT, 0777);
+			O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (pipex->outfile_fd == -1)
 	{
 		pipex->p_data.argv = argv[argc - 1];
